@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'PoporAFN_Example' do
+  pod 'PoporAFN', :path => '../'
+
+  target 'PoporAFN_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

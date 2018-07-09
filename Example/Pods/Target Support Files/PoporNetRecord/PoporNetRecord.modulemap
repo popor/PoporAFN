@@ -1,0 +1,6 @@
+framework module PoporNetRecord {
+  umbrella header "PoporNetRecord-umbrella.h"
+
+  export *
+  module * { export * }
+}
