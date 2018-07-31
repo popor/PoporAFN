@@ -9,7 +9,7 @@
 #import "PoporAFN.h"
 #import "PoporAFNConfig.h"
 #import <PoporNetRecord/PoporNetRecord.h>
-#import <PoporFoundation/FunctionPrefix.h>
+#import <PoporFoundation/PrefixFun.h>
 
 
 static NSString * MethodGet  = @"GET";

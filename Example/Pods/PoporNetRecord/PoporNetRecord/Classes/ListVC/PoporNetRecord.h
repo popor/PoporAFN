@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PoporFoundation/BlockMacroDefines.h>
+#import <PoporFoundation/PrefixBlock.h>
 
 @interface PoporNetRecord : NSObject
 

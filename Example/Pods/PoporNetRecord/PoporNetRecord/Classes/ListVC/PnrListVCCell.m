@@ -7,7 +7,7 @@
 //
 
 #import "PnrListVCCell.h"
-#import <PoporFoundation/ColorPrefix.h>
+#import <PoporFoundation/PrefixColor.h>
 #import <Masonry/Masonry.h>
 
 @implementation PnrListVCCell

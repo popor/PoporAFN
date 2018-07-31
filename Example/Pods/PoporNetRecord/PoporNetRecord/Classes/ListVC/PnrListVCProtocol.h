@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PnrVCEntity.h"
-#import <PoporFoundation/BlockMacroDefines.h>
+#import <PoporFoundation/PrefixBlock.h>
 
 // 对外接口
 @protocol PnrListVCProtocol <NSObject>

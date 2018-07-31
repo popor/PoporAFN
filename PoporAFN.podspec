@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporAFN'
-    s.version          = '0.0.1'
+    s.version          = '0.0.2'
     s.summary          = 'combine afn, support net monitor;包装了AFN方法,支持网络监测功能.'
     
     # This description is used to generate tags and improve search results.
@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
     
     s.dependency 'PoporNetRecord'
     s.dependency 'AFNetworking'
-    s.dependency 'PoporFoundation/prefix'
+    s.dependency 'PoporFoundation/PrefixCore'
     
     
 end
