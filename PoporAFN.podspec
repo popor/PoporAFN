@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'PoporAFN'
-    s.version          = '0.0.2'
+    s.version          = '0.0.3'
     s.summary          = 'combine afn, support net monitor;包装了AFN方法,支持网络监测功能.'
     
     # This description is used to generate tags and improve search results.
@@ -26,6 +26,8 @@ Pod::Spec.new do |s|
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
     
     s.ios.deployment_target = '8.0'
+    s.osx.deployment_target  = '10.10' # minimum SDK with autolayout
+    s.tvos.deployment_target = '9.0' # minimum SDK with autolayout
     
     s.source_files = 'PoporAFN/Classes/*.{h,m}'
     
