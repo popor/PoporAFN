@@ -15,7 +15,7 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - Masonry (1.1.0)
-  - PoporAFN (0.0.3):
+  - PoporAFN (0.0.4):
     - AFNetworking
     - PoporFoundation/PrefixCore
     - PoporNetRecord
@@ -85,11 +85,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporAFN: 698b8d93db05b8f16bcba1309d4b4ff8da56a1cc
+  PoporAFN: e06faa3c6a65b4aae85f0a718788942b3e14aa48
   PoporFoundation: 0293bddbd32f0c12b80c6149105e2804ae79b16c
   PoporNetRecord: 65fe494b85651bf76a3683c593cfaea402b3dd7c
   PoporUI: 09366ba0d18b7099d7b3a37aaf7cac84a4954980
 
-PODFILE CHECKSUM: 9891cd580e2dd256eb3ea1573f98f74dc676ea1e
+PODFILE CHECKSUM: ea0f367957234676e567f77eae60ee85ba1ab9af
 
 COCOAPODS: 1.5.3

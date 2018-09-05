@@ -9,3 +9,8 @@ target 'PoporAFN_Example' do
     
   end
 end
+
+target 'PoporAFNMac' do
+    pod 'PoporAFN', :path => '../'
+    
+end

@@ -1,6 +1,6 @@
 {
   "name": "PoporAFN",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "summary": "combine afn, support net monitor;包装了AFN方法,支持网络监测功能.",
   "homepage": "https://github.com/popor/PoporAFN",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporAFN.git",
-    "tag": "0.0.3"
+    "tag": "0.0.4"
   },
   "platforms": {
     "ios": "8.0",
@@ -21,14 +21,18 @@
   },
   "source_files": "PoporAFN/Classes/*.{h,m}",
   "dependencies": {
-    "PoporNetRecord": [
-
-    ],
     "AFNetworking": [
 
     ],
     "PoporFoundation/PrefixCore": [
 
     ]
+  },
+  "ios": {
+    "dependencies": {
+      "PoporNetRecord": [
+
+      ]
+    }
   }
 }

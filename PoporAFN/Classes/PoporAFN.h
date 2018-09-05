@@ -21,9 +21,9 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
 
 - (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
 
-- (void)postUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure monitor:(BOOL)monitor;
+- (void)postUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters monitor:(BOOL)monitor success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
 
-- (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure monitor:(BOOL)monitor;
+- (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters monitor:(BOOL)monitor success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
 
 @end
 
