@@ -8,7 +8,7 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-### 包装了AFN方法,支持网络监测功能.
+### 包装了AFN方法,支持网络监测功能(通过PoporNetRecord控制).
 ### [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil monitor:YES];
 
 ## Requirements

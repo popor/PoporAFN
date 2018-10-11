@@ -415,7 +415,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PoporAFNMac/Pods-PoporAFNMac-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PoporAFNMac/Pods-PoporAFNMac-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking-c94d3492/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporAFN-macOS/PoporAFN.framework",
 			);
@@ -426,7 +426,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PoporAFNMac/Pods-PoporAFNMac-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoporAFNMac/Pods-PoporAFNMac-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		60DE1EB73E5A94107AF770FD /* [CP] Check Pods Manifest.lock */ = {
@@ -453,7 +453,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PoporAFN_Example/Pods-PoporAFN_Example-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PoporAFN_Example/Pods-PoporAFN_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporAFN-iOS/PoporAFN.framework",
@@ -472,7 +472,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PoporAFN_Example/Pods-PoporAFN_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PoporAFN_Example/Pods-PoporAFN_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF3255345FB5C072C59E6736 /* [CP] Check Pods Manifest.lock */ = {

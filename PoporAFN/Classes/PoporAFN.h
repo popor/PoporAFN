@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PoporAFNConfig.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,10 +21,6 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
 - (void)postUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
 
 - (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
-
-- (void)postUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters monitor:(BOOL)monitor success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
-
-- (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters monitor:(BOOL)monitor success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure;
 
 @end
 

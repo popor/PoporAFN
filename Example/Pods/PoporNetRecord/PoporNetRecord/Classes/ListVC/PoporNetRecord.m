@@ -26,6 +26,7 @@
 @property (nonatomic        ) CGFloat sBallHideWidth;
 @property (nonatomic        ) CGFloat sBallWidth;
 
+@property (nonatomic, getter=isShow) BOOL show;
 @end
 
 @implementation PoporNetRecord
@@ -40,20 +41,15 @@
         instance.activeAlpha    = 1.0;
         instance.normalAlpha    = 0.6;
         instance.recordMaxNum   = 100;
-        
-        if (IsDebugVersion) {
-            instance.infoArray = [NSMutableArray new];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [instance addViews];
-            });
-            
-        }
+
+        instance.infoArray      = [NSMutableArray new];
+        instance.recordType     = PoporNetRecordAuto;
     });
     return instance;
 }
 
 + (void)addUrl:(NSString *)urlString method:(NSString *)method head:(NSDictionary *)headDic request:(NSDictionary *)requestDic response:(NSDictionary *)responseDic {
-    if (IsDebugVersion) {
+    if ([PoporNetRecord share].isShow) {
         PnrVCEntity * entity = [PnrVCEntity new];
         entity.url = urlString;
         if (urlString.length>0) {
@@ -81,6 +77,9 @@
 }
 
 - (void)addViews {
+    if (self.window) {
+        return;
+    }
     self.window = [[UIApplication sharedApplication] keyWindow];
     self.ballBT = ({
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -117,7 +116,9 @@
     self.ballBT.hidden = YES;
     __weak typeof(self) weakSelf = self;
     BlockPVoid closeBlock = ^() {
-        weakSelf.ballBT.hidden = NO;
+        if (weakSelf.isShow) {
+            weakSelf.ballBT.hidden = NO;
+        }
     };
     UIViewController * vc = [PnrListVCRouter vcWithDic:@{@"title":@"网络请求", @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
     if (self.window.rootViewController.presentedViewController) {
@@ -126,10 +127,9 @@
         [nc pushViewController:vc animated:YES];
     }else{
         UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        //        {
-        //            [nc setVRSNCBarTitleColor];
-        //            [nc setInteractivePopGRDelegate];
-        //        }
+        if (self.presentNCBlock) {
+            self.presentNCBlock(nc);
+        }
         
         [self.window.rootViewController presentViewController:nc animated:YES completion:nil];
     }
@@ -194,7 +194,7 @@
 }
 
 - (void)changeSBallViewFrameWithPoint:(CGPoint)point {
-    self.ballBT.center = CGPointMake(point.x, point.y-self.ballBT.height/2);
+    self.ballBT.center = CGPointMake(point.x, point.y);
 }
 
 #pragma mark - 记录按钮位置
@@ -208,5 +208,48 @@
     return info;
 }
 
-
+// 开关
+- (void)setRecordType:(PoporNetRecordType)recordType {
+    if (_recordType == 0 || _recordType != recordType) {
+        _recordType = recordType;
+    }else{
+        return;
+    }
+    
+    switch (recordType) {
+        case PoporNetRecordAuto:
+#if TARGET_IPHONE_SIMULATOR
+            _show = YES;
+#else
+            if (IsDebugVersion) {
+                _show = YES;
+            }else{
+                _show = NO;
+            }
+#endif
+            break;
+        case PoporNetRecordEnable:
+            _show = YES;
+            break;
+            
+        case PoporNetRecordDisable:
+            _show = NO;
+            break;
+            
+        default:
+            break;
+    }
+    if (_show) {
+        if (!_window) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self addViews];
+            });
+        }
+        _ballBT.hidden = NO;
+    }else{
+        _ballBT.hidden = YES;
+    }
+    
+    
+}
 @end
