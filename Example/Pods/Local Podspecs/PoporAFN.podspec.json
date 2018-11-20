@@ -1,6 +1,6 @@
 {
   "name": "PoporAFN",
-  "version": "0.0.07",
+  "version": "0.0.08",
   "summary": "combine afn, support net monitor;包装了AFN方法,支持网络监测功能(通过PoporNetRecord控制).",
   "homepage": "https://github.com/popor/PoporAFN",
   "license": {
@@ -12,7 +12,7 @@
   },
   "source": {
     "git": "https://github.com/popor/PoporAFN.git",
-    "tag": "0.0.07"
+    "tag": "0.0.08"
   },
   "platforms": {
     "ios": "8.0",

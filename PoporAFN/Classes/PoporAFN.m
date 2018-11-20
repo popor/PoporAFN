@@ -86,14 +86,11 @@ static NSString * MethodPost = @"POST";
 #elif TARGET_OS_MAC || TARGET_OS_TV || TARGET_OS_WATCH
         
 #endif
-
-        
     });
 }
 
-
 #pragma mark - 下载
-- (void)downloadUrl:(NSURL * _Nonnull)downloadUrl destination:(NSURL * _Nullable)destinationUrl progress:(void (^)(float progress, NSProgress * _Nonnull downloadProgress))progressBlock finish:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))finishBlock {
+- (void)downloadUrl:(NSURL * _Nonnull)downloadUrl destination:(NSURL * _Nullable)destinationUrl progress:(nullable void (^)(float progress, NSProgress * _Nonnull downloadProgress))progressBlock finish:(nullable void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))finishBlock {
     //默认配置
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     
