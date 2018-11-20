@@ -13,6 +13,8 @@
 
 @interface PoporAFNViewController ()
 
+@property (nonatomic, strong) PoporAFN * pAFN;
+
 @end
 
 @implementation PoporAFNViewController
@@ -20,10 +22,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // 设置监测类型
-    PoporNetRecord * net = [PoporNetRecord share];
-    net.recordType = PoporNetRecordAuto;
     
     // 设置head示例
     PoporAFNConfig * config = [PoporAFNConfig share];
@@ -47,6 +45,19 @@
     // 测试网络请求
     [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
     [PoporAFNTool postUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
+    
+    //[self downloadAction];
+}
+
+- (void)downloadAction {
+    NSURL * URL = [NSURL URLWithString:@"https://stdl.qq.com/stdl/MACQQBrowser/kantu/img/gallery/1.png"];
+    URL = [NSURL URLWithString:@"https://dldir1.qq.com/qqfile/QQforMac/QQ_V6.5.2.dmg"];
+    self.pAFN = PoporAFNTool;
+    [self.pAFN downloadUrl:URL destination:nil progress:^(float progress, NSProgress * _Nonnull downloadProgress) {
+        NSLog(@"下载进度: %f", progress);
+    } finish:^(NSURLResponse * _Nonnull response, NSURL * _Nonnull filePath, NSError * _Nonnull error) {
+        NSLog(@"filePath: %@", filePath.absoluteString);
+    }];
 }
 
 @end

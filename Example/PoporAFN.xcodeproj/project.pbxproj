@@ -455,17 +455,21 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PoporAFN_Example/Pods-PoporAFN_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/JSONSyntaxHighlight/JSONSyntaxHighlight.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporAFN-iOS/PoporAFN.framework",
-				"${BUILT_PRODUCTS_DIR}/PoporFoundation-bca7d920/PoporFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/PoporAlertBubbleView/PoporAlertBubbleView.framework",
+				"${BUILT_PRODUCTS_DIR}/PoporFoundation-16e6ff9b/PoporFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporNetRecord/PoporNetRecord.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSONSyntaxHighlight.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporAFN.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporAlertBubbleView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporNetRecord.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporUI.framework",

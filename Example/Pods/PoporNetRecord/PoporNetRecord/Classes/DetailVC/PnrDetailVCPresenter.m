@@ -11,11 +11,14 @@
 
 #import <PoporUI/IToastKeyboard.h>
 #import <PoporFoundation/NSString+Size.h>
+#import "PoporNetRecordConfig.h"
+#import "PnrDetailCell.h"
 
 @interface PnrDetailVCPresenter ()
 
 @property (nonatomic, weak  ) id<PnrDetailVCProtocol> view;
 @property (nonatomic, strong) PnrDetailVCInteractor * interactor;
+@property (nonatomic, weak  ) PoporNetRecordConfig * config;
 
 @end
 
@@ -24,7 +27,7 @@
 - (id)init {
     if (self = [super init]) {
         [self initInteractors];
-        
+        self.config = [PoporNetRecordConfig share];
     }
     return self;
 }
@@ -47,14 +50,27 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.view.infoArray.count;
+    return self.view.cellAttArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString * content = self.view.infoArray[indexPath.row];
-    float height = [content sizeInFont:[UIFont systemFontOfSize:15] width:self.view.vc.view.frame.size.width - 30].height;
+    float width = self.view.vc.view.frame.size.width;
+    NSMutableAttributedString * att = self.view.cellAttArray[indexPath.row];
+    static UILabel * l;
+    if (!l) {
+        l = [UILabel new];
+        l.font = self.config.cellTitleFont;
+        l.numberOfLines = 0;
+    }
+    l.frame = CGRectMake(0, 0, width-30, 10);
+    if (self.config.jsonViewColorBlack) {
+        l.text = att.string;
+    }else{
+        l.attributedText = att;
+    }
     
-    return height + 20;
+    [l sizeToFit];
+    return MAX(l.frame.size.height + 6, 56);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -67,15 +83,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * CellID = @"CellID";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellID];
+    PnrDetailCell * cell = [tableView dequeueReusableCellWithIdentifier:CellID];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+        cell = [[PnrDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.numberOfLines = 0;
     }
-    
-    cell.textLabel.text = self.view.infoArray[indexPath.row];
+    NSMutableAttributedString * att = self.view.cellAttArray[indexPath.row];
+    if (self.config.jsonViewColorBlack) {
+        cell.textL.text = att.string;
+    }else{
+        cell.textL.attributedText = att;
+    }
     
     return cell;
 }
@@ -97,8 +115,8 @@
 #pragma mark - VC_EventHandler
 - (void)copyAction {
     NSMutableString * text = [NSMutableString new];
-    for (NSString * string in self.view.infoArray) {
-        [text appendFormat:@"%@\n\n", string];
+    for (NSMutableAttributedString * att in self.view.cellAttArray) {
+        [text appendFormat:@"%@\n\n", att.string];
     }
     
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];

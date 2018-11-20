@@ -91,4 +91,39 @@ static NSString * MethodPost = @"POST";
     });
 }
 
+
+#pragma mark - 下载
+- (void)downloadUrl:(NSURL * _Nonnull)downloadUrl destination:(NSURL * _Nonnull)destinationUrl progress:(void (^)(float progress, NSProgress * _Nonnull downloadProgress))progressBlock finish:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))finishBlock {
+    //默认配置
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    //AFN3.0+基于封住URLSession的句柄
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    //请求
+    NSURLRequest *request = [NSURLRequest requestWithURL:downloadUrl];
+    
+    //下载Task操作
+    self.downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+        if (progressBlock) {
+            float progress = (float)downloadProgress.completedUnitCount/(float)downloadProgress.totalUnitCount;
+            // 回到主队列刷新UI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressBlock(progress, downloadProgress);
+            });
+        }
+    } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        if (destinationUrl) {
+            return destinationUrl;
+        }else{
+            NSString *cachesPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+            NSString *path = [cachesPath stringByAppendingPathComponent:response.suggestedFilename];
+            return [NSURL fileURLWithPath:path];
+        }
+    } completionHandler:finishBlock];
+    
+    [self.downloadTask resume];
+}
+
+
 @end

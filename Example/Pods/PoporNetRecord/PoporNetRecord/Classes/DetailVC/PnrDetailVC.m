@@ -21,18 +21,20 @@
 
 @implementation PnrDetailVC
 @synthesize infoTV;
-@synthesize infoArray;
 @synthesize jsonArray;
+@synthesize titleArray;
+@synthesize cellAttArray;
 @synthesize selectRow;
 @synthesize menu;
 
 - (instancetype)initWithDic:(NSDictionary *)dic {
     if (self = [super init]) {
         if (dic) {
-            self.title = dic[@"title"];
+            self.title        = dic[@"title"];
             
-            self.infoArray = dic[@"infoArray"];
-            self.jsonArray = dic[@"jsonArray"];
+            self.jsonArray    = dic[@"jsonArray"];
+            self.titleArray   = dic[@"titleArray"];
+            self.cellAttArray = dic[@"cellAttArray"];
         }
     }
     return self;
@@ -109,11 +111,11 @@
     
     [self.view addSubview:oneTV];
     
-    __weak typeof (self) weakSelf = self;
     [oneTV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(weakSelf.view);
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    
+    oneTV.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     
     return oneTV;
 }
@@ -142,7 +144,7 @@
     }else{
         NSIndexPath *indexPath = [self.infoTV indexPathForRowAtPoint:point];
         self.selectRow = (int)indexPath.row;
-        if (self.selectRow >=0 && self.selectRow<self.infoArray.count) {
+        if (self.selectRow >=0 && self.selectRow<self.cellAttArray.count) {
             [self showUIMenuAtPoint:point];
         }
     }
@@ -169,7 +171,8 @@
 
 - (void)copyTextContent:(UIMenuItem *)sender {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    [pasteboard setString:self.infoArray[self.selectRow]];
+    NSMutableAttributedString * att = self.cellAttArray[self.selectRow];
+    [pasteboard setString:att.string];
 }
 
 - (void)copyJsonContent:(UIMenuItem *)sender {

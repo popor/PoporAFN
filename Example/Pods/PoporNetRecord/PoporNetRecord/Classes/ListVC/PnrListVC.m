@@ -23,6 +23,10 @@
 @synthesize weakInfoArray;
 @synthesize closeBlock;
 
+@synthesize alertBubbleView;
+@synthesize alertBubbleTV;
+@synthesize alertBubbleTVColor;
+
 - (instancetype)initWithDic:(NSDictionary *)dic {
     if (self = [super init]) {
         if (dic) {
@@ -58,10 +62,13 @@
         [PnrListVCRouter setVCPresent:self];
     }
     
+    if (!self.alertBubbleTVColor) {
+        self.alertBubbleTVColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    }
     [self addViews];
     
     __weak typeof(self) weakSelf = self;
-    [PoporNetRecord share].freshBlock = ^{
+    [PoporNetRecord share].config.freshBlock = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.infoTV reloadData];
         });
@@ -93,10 +100,7 @@
         UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self.present action:@selector(closeAction)];
         self.navigationItem.leftBarButtonItems = @[item1];
     }
-    {
-        UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self.present action:@selector(clearAction)];
-        self.navigationItem.rightBarButtonItems = @[item1];
-    }
+    [self.present setRightBarAction];
 }
 
 - (UITableView *)addTVs {
@@ -114,11 +118,33 @@
     
     [self.view addSubview:oneTV];
     
-    __weak typeof (self) weakSelf = self;
     [oneTV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(weakSelf.view);
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    
+    return oneTV;
+}
+
+- (UITableView *)alertBubbleTV {
+    UITableView * oneTV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 150, 88) style:UITableViewStylePlain];
+    
+    oneTV.delegate   = self.present;
+    oneTV.dataSource = self.present;
+    
+    oneTV.allowsMultipleSelectionDuringEditing = YES;
+    oneTV.directionalLockEnabled = YES;
+    
+    oneTV.estimatedRowHeight           = 0;
+    oneTV.estimatedSectionHeaderHeight = 0;
+    oneTV.estimatedSectionFooterHeight = 0;
+    
+    oneTV.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    
+    oneTV.layer.cornerRadius = 4;
+    oneTV.clipsToBounds      = YES;
+    oneTV.scrollEnabled      = NO;
+    
+    oneTV.backgroundColor = [UIColor clearColor];
     
     return oneTV;
 }

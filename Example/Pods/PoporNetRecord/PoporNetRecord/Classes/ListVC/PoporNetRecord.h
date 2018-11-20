@@ -7,28 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PoporFoundation/PrefixBlock.h>
+#import "PoporNetRecordConfig.h"
 
-typedef NS_ENUM(int, PoporNetRecordType) {
-    PoporNetRecordAuto = 1, // 开发环境或者虚拟机环境
-    PoporNetRecordEnable, // 全部监测
-    PoporNetRecordDisable, // 全部忽略
-};
-
-typedef void(^PoporNetRecordNcBlock) (UINavigationController * nc);
+typedef void(^PoporNetRecordBlockPVoid) (void);
 
 @interface PoporNetRecord : NSObject
 
-@property (nonatomic        ) CGFloat   activeAlpha;
-@property (nonatomic        ) CGFloat   normalAlpha;
-@property (nonatomic        ) NSInteger recordMaxNum;
+@property (nonatomic, weak  ) PoporNetRecordConfig * config;
 
-@property (nonatomic        ) PoporNetRecordType recordType;//监测类型
-@property (nonatomic, copy  ) BlockPVoid freshBlock;
-@property (nonatomic, copy  ) PoporNetRecordNcBlock presentNCBlock;// 用户更新 presentViewController NC的状态
+@property (nonatomic, weak  ) UIWindow * window;
+@property (nonatomic, strong) UIButton * ballBT;
+
+@property (nonatomic        ) CGFloat sBallHideWidth;
+@property (nonatomic        ) CGFloat sBallWidth;
+@property (nonatomic, strong) NSMutableArray * infoArray;
+
+@property (nonatomic, weak  ) UINavigationController * nc;
+@property (nonatomic, copy  ) PoporNetRecordBlockPVoid openBlock;
+@property (nonatomic, copy  ) PoporNetRecordBlockPVoid closeBlock;
+
+@property (nonatomic, getter=isShow) BOOL show;
 
 + (instancetype)share;
 
 + (void)addUrl:(NSString *)urlString method:(NSString *)method head:(NSDictionary *)headDic request:(NSDictionary *)requestDic response:(NSDictionary *)responseDic;
+
+// 把ballBT提到最高层.
++ (void)bringFrontBallBT;
 
 @end

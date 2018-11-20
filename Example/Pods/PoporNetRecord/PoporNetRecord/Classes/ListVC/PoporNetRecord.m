@@ -13,20 +13,13 @@
 #import <PoporUI/UIView+Extension.h>
 #import <PoporFoundation/PrefixFun.h>
 #import <PoporFoundation/NSDate+Tool.h>
-
+#import <JSONSyntaxHighlight/JSONSyntaxHighlight.h>
 
 #define LL_SCREEN_WIDTH  [[UIScreen mainScreen] bounds].size.width
 #define LL_SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 
-@interface PoporNetRecord ()
+@interface PoporNetRecord () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, weak  ) UIWindow * window;
-@property (nonatomic, strong) NSMutableArray<PnrVCEntity *> * infoArray;
-@property (nonatomic, strong) UIButton * ballBT;
-@property (nonatomic        ) CGFloat sBallHideWidth;
-@property (nonatomic        ) CGFloat sBallWidth;
-
-@property (nonatomic, getter=isShow) BOOL show;
 @end
 
 @implementation PoporNetRecord
@@ -38,12 +31,16 @@
         instance = [self new];
         instance.sBallHideWidth = 10;
         instance.sBallWidth     = 80;
-        instance.activeAlpha    = 1.0;
-        instance.normalAlpha    = 0.6;
-        instance.recordMaxNum   = 100;
-
         instance.infoArray      = [NSMutableArray new];
-        instance.recordType     = PoporNetRecordAuto;
+        
+        {
+            instance.config = [PoporNetRecordConfig share];
+            __weak typeof(instance) weakSelf = instance;
+            instance.config.recordTypeBlock = ^(PoporNetRecordType type) {
+                [weakSelf setRecordType:type];
+            };
+            instance.config.recordTypeBlock(instance.config.recordType);
+        }
     });
     return instance;
 }
@@ -65,13 +62,13 @@
         entity.requestDic  = requestDic;
         entity.responseDic = responseDic;
         entity.time = [NSDate stringFromDate:[NSDate date] formatter:@"HH:mm:ss"];
-        if ([PoporNetRecord share].infoArray.count >= [PoporNetRecord share].recordMaxNum) {
+        if ([PoporNetRecord share].infoArray.count >= [PoporNetRecord share].config.recordMaxNum) {
             [[PoporNetRecord share].infoArray removeLastObject];
         }
         [[PoporNetRecord share].infoArray insertObject:entity atIndex:0];
         
-        if ([PoporNetRecord share].freshBlock) {
-            [PoporNetRecord share].freshBlock();
+        if ([PoporNetRecord share].config.freshBlock) {
+            [PoporNetRecord share].config.freshBlock();
         }
     }
 }
@@ -106,7 +103,7 @@
     }else{
         self.ballBT.center = CGPointMake(self.ballBT.width/2- self.sBallHideWidth, 180);
     }
-    self.ballBT.alpha = self.normalAlpha;
+    self.ballBT.alpha = self.config.normalAlpha;
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGR:)];
     [self.ballBT addGestureRecognizer:pan];
@@ -119,23 +116,46 @@
         if (weakSelf.isShow) {
             weakSelf.ballBT.hidden = NO;
         }
+        if (weakSelf.closeBlock) {
+            weakSelf.closeBlock();
+        }
     };
     UIViewController * vc = [PnrListVCRouter vcWithDic:@{@"title":@"网络请求", @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
-    if (self.window.rootViewController.presentedViewController) {
-        UINavigationController * nc = (UINavigationController *)self.window.rootViewController.presentedViewController;
-        
-        [nc pushViewController:vc animated:YES];
-    }else{
-        UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
-        if (self.presentNCBlock) {
-            self.presentNCBlock(nc);
-        }
-        
-        [self.window.rootViewController presentViewController:nc animated:YES completion:nil];
+    UINavigationController * oneNC = [[UINavigationController alloc] initWithRootViewController:vc];
+    if (self.config.presentNCBlock) {
+        self.config.presentNCBlock(oneNC);
     }
+    if (self.window.rootViewController.presentationController
+        && self.window.rootViewController.presentedViewController) {
+        [self.window.rootViewController.presentedViewController presentViewController:oneNC animated:YES completion:nil];
+    }else{
+        [self.window.rootViewController presentViewController:oneNC animated:YES completion:nil];
+    }
+    oneNC.interactivePopGestureRecognizer.delegate = self;
+    
+    // 打开block事件
+    if (self.openBlock) {
+        self.openBlock();
+    }
+    self.nc = oneNC;
 }
 
 #pragma mark - Action
+// 侧滑返回判断
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (gestureRecognizer == self.nc.interactivePopGestureRecognizer) {
+        if (self.nc.viewControllers.count == 1) {
+            [self.nc dismissViewControllerAnimated:YES completion:nil];
+            return NO;
+        }else{
+            return YES;
+        }
+    }else{
+        return YES;
+    }
+}
+
+// 球移动轨迹
 - (void)panGR:(UIPanGestureRecognizer *)gr {
     CGPoint panPoint = [gr locationInView:[[UIApplication sharedApplication] keyWindow]];
     //NSLog(@"panPoint: %f-%f", panPoint.x, panPoint.y);
@@ -150,12 +170,12 @@
 }
 
 - (void)becomeActive {
-    self.ballBT.alpha = self.activeAlpha;
+    self.ballBT.alpha = self.config.activeAlpha;
 }
 
 - (void)resignActive {
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.ballBT.alpha = self.normalAlpha;
+        self.ballBT.alpha = self.config.normalAlpha;
         // Calculate End Point
         CGFloat x = self.ballBT.center.x;
         CGFloat y = self.ballBT.center.y;
@@ -210,12 +230,6 @@
 
 // 开关
 - (void)setRecordType:(PoporNetRecordType)recordType {
-    if (_recordType == 0 || _recordType != recordType) {
-        _recordType = recordType;
-    }else{
-        return;
-    }
-    
     switch (recordType) {
         case PoporNetRecordAuto:
 #if TARGET_IPHONE_SIMULATOR
@@ -251,5 +265,10 @@
     }
     
     
+}
+// 把ballBT提到最高层.
++ (void)bringFrontBallBT {
+    PoporNetRecord * pnr = [PoporNetRecord share];
+    [pnr.window bringSubviewToFront:pnr.ballBT];
 }
 @end

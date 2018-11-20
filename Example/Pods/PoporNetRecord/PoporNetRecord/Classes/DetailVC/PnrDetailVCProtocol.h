@@ -19,7 +19,8 @@
 @property (nonatomic, strong) UIMenuController * menu;
 
 // inject : 外部注入的
-@property (nonatomic, strong) NSArray * infoArray;
 @property (nonatomic, strong) NSArray * jsonArray;
+@property (nonatomic, strong) NSArray * titleArray;
+@property (nonatomic, strong) NSArray * cellAttArray;
 
 @end

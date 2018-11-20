@@ -22,6 +22,12 @@ it, simply add the following line to your Podfile:
 pod 'PoporNetRecord'
 ```
 
+<p>
+<img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/list.png" width="40%" height="40%">
+<img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/detail.png" width="40%" height="40%">
+
+</p>
+
 ## Author
 
 wangkq, 908891024@qq.com

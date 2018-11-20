@@ -13,4 +13,7 @@
 - (void)closeAction;
 - (void)clearAction;
 
+- (void)setRightBarAction;
+- (void)setTextColorAction:(UIBarButtonItem *)sender event:(UIEvent *)event;
+
 @end
