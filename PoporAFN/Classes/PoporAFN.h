@@ -26,7 +26,7 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
 @property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask;
 
 // PoporAFN 需要持久化,不会无法下载
-- (void)downloadUrl:(NSURL * _Nonnull)downloadUrl destination:(NSURL * _Nonnull)destinationUrl progress:(void (^)(float progress, NSProgress * _Nonnull downloadProgress))progressBlock finish:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))finishBlock;
+- (void)downloadUrl:(NSURL * _Nonnull)downloadUrl destination:(NSURL * _Nullable)destinationUrl progress:(void (^)(float progress, NSProgress * _Nonnull downloadProgress))progressBlock finish:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))finishBlock;
 
 @end
 

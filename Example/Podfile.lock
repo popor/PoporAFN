@@ -16,7 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - JSONSyntaxHighlight (1.0.0)
   - Masonry (1.1.0)
-  - PoporAFN (0.0.06):
+  - PoporAFN (0.0.07):
     - AFNetworking
     - PoporFoundation/PrefixCore
     - PoporNetRecord
@@ -102,7 +102,7 @@ SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   JSONSyntaxHighlight: 8685d8ad0259b909dc97a829fdfbefbec363f449
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporAFN: 51c901cf7fc8065ce2fb6905e327d33cd049f15d
+  PoporAFN: c7dc139769b9c3edb305964ad45723ed519f02a0
   PoporAlertBubbleView: aea73e383fca9d7dedda533fac160c9e66c720cf
   PoporFoundation: 272b2422b3a1808a8446de2aed3b86d8cc49d328
   PoporNetRecord: d8bae2d6f38b7b7e3f09db1b32eb1e49e242cf36
