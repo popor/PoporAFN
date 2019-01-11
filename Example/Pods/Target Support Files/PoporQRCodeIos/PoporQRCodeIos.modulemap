@@ -1,0 +1,6 @@
+framework module PoporQRCodeIos {
+  umbrella header "PoporQRCodeIos-umbrella.h"
+
+  export *
+  module * { export * }
+}

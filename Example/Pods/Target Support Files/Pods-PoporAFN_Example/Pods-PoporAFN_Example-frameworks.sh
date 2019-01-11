@@ -154,22 +154,26 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JSONSyntaxHighlight/JSONSyntaxHighlight.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporAFN-iOS/PoporAFN.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporAlertBubbleView/PoporAlertBubbleView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporFoundation-16e6ff9b/PoporFoundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporNetRecord/PoporNetRecord.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PoporQRCodeIos/PoporQRCodeIos.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GCDWebServer/GCDWebServer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/JSONSyntaxHighlight/JSONSyntaxHighlight.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporAFN-iOS/PoporAFN.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporAlertBubbleView/PoporAlertBubbleView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporFoundation-16e6ff9b/PoporFoundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporNetRecord/PoporNetRecord.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/PoporQRCodeIos/PoporQRCodeIos.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

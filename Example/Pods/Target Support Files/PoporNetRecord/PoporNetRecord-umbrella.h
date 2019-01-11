@@ -27,6 +27,9 @@
 #import "PnrListVCProtocol.h"
 #import "PnrListVCRouter.h"
 #import "PoporNetRecord.h"
+#import "PnrWebPortEntity.h"
+#import "PnrWebPortVC.h"
+#import "PnrWebVC.h"
 #import "PnrVCEntity.h"
 #import "PoporNetRecordConfig.h"
 

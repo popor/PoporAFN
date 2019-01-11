@@ -13,12 +13,13 @@
 
 #import "PnrListVCCell.h"
 #import <JSONSyntaxHighlight/JSONSyntaxHighlight.h>
+#import <PoporFoundation/NSString+format.h>
 #import "PoporNetRecordConfig.h"
 
 @interface PnrListVCPresenter ()
 
 @property (nonatomic, weak  ) id<PnrListVCProtocol> view;
-@property (nonatomic, strong) PnrListVCInteractor * interactor;
+@property (nonatomic, strong) PnrListVCInteractor  * interactor;
 @property (nonatomic, weak  ) PoporNetRecordConfig * config;
 
 @end
@@ -152,9 +153,9 @@
                                 [NSNull null],
                                 [NSNull null],
                                 
-                                entity.headDic ?:[NSNull null],
-                                entity.requestDic ?:[NSNull null],
-                                entity.responseDic ?:[NSNull null],
+                                entity.headValue ?:[NSNull null],
+                                entity.requesValue ?:[NSNull null],
+                                entity.responseValue ?:[NSNull null],
                                 ];
         
         
@@ -164,13 +165,17 @@
             
             NSMutableAttributedString * cellAtt = [[NSMutableAttributedString alloc] initWithString:titleArray[i] attributes:self.config.titleAttributes];
             
-            if ([json isKindOfClass:[NSDictionary class]]) {
-                JSONSyntaxHighlight *jsh = [[JSONSyntaxHighlight alloc] initWithJSON:json];
-                jsh.keyAttributes       = self.config.keyAttributes;
-                jsh.stringAttributes    = self.config.stringAttributes;
-                jsh.nonStringAttributes = self.config.nonStringAttributes;
-                NSAttributedString * jsonAtt = [jsh highlightJSON];
-                [cellAtt appendAttributedString:jsonAtt];
+            if (json) {
+                if ([json isKindOfClass:[NSDictionary class]]) {
+                    JSONSyntaxHighlight *jsh = [[JSONSyntaxHighlight alloc] initWithJSON:json];
+                    jsh.keyAttributes       = self.config.keyAttributes;
+                    jsh.stringAttributes    = self.config.stringAttributes;
+                    jsh.nonStringAttributes = self.config.nonStringAttributes;
+                    NSAttributedString * jsonAtt = [jsh highlightJSON];
+                    [cellAtt appendAttributedString:jsonAtt];
+                }else if ([json isKindOfClass:[NSString class]]) {
+                    [cellAtt addString:(NSString *)json font:nil color:[UIColor darkGrayColor]];
+                }
             }
             
             [cellAttArray addObject:cellAtt];

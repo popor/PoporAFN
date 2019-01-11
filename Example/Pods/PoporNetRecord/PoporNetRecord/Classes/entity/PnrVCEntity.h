@@ -13,10 +13,12 @@
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSString * domain;
 @property (nonatomic, strong) NSString * request;
-@property (nonatomic, strong) NSString * method; // post get
-@property (nonatomic, strong) NSDictionary * headDic;
-@property (nonatomic, strong) NSDictionary * requestDic;
-@property (nonatomic, strong) NSDictionary * responseDic;
+@property (nonatomic, strong) NSString * method;// post get
+
+@property (nonatomic, strong) id       headValue;
+@property (nonatomic, strong) id       requesValue;
+@property (nonatomic, strong) id       responseValue;
+
 @property (nonatomic, strong) NSString * time;
 
 //@property (nonatomic        ) float cellH;

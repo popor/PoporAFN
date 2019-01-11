@@ -14,6 +14,7 @@
 #import "NSDate+Tool.h"
 #import "NSDictionary+Swizzling.h"
 #import "NSDictionary+tool.h"
+#import "NSObject+assign.h"
 #import "NSObject+performSelector.h"
 #import "NSObject+Swizzling.h"
 #import "NSString+email.h"

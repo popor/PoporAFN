@@ -45,7 +45,7 @@
     return instance;
 }
 
-+ (void)addUrl:(NSString *)urlString method:(NSString *)method head:(NSDictionary *)headDic request:(NSDictionary *)requestDic response:(NSDictionary *)responseDic {
++ (void)addUrl:(NSString *)urlString method:(NSString *)method head:(id)headValue request:(id)requestValue response:(id)responseValue {
     if ([PoporNetRecord share].isShow) {
         PnrVCEntity * entity = [PnrVCEntity new];
         entity.url = urlString;
@@ -57,10 +57,11 @@
             }
         }
         
-        entity.method      = method;
-        entity.headDic     = headDic;
-        entity.requestDic  = requestDic;
-        entity.responseDic = responseDic;
+        entity.method        = method;
+        entity.headValue     = headValue;
+        entity.requesValue   = requestValue;
+        entity.responseValue = responseValue;
+        
         entity.time = [NSDate stringFromDate:[NSDate date] formatter:@"HH:mm:ss"];
         if ([PoporNetRecord share].infoArray.count >= [PoporNetRecord share].config.recordMaxNum) {
             [[PoporNetRecord share].infoArray removeLastObject];
@@ -122,6 +123,8 @@
     };
     UIViewController * vc = [PnrListVCRouter vcWithDic:@{@"title":@"网络请求", @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
     UINavigationController * oneNC = [[UINavigationController alloc] initWithRootViewController:vc];
+    oneNC.navigationBar.translucent = NO;
+    
     if (self.config.presentNCBlock) {
         self.config.presentNCBlock(oneNC);
     }

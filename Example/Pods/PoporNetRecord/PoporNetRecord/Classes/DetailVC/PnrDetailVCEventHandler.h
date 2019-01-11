@@ -11,5 +11,7 @@
 @protocol PnrDetailVCEventHandler <NSObject>
 
 - (void)copyAction;
+- (void)pushWebVC;
+- (void)startServer;
 
 @end
