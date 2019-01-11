@@ -15,8 +15,6 @@ typedef AFHTTPSessionManager*(^PoporAFNSMBlock)(void); // __BlockTypedef
 
 @property (nonatomic, copy  ) PoporAFNSMBlock afnSMBlock;
 
-@property (nonatomic, getter=isMonitorAFNNet) BOOL monitorAFNNet;// 监测网络
-
 + (AFHTTPSessionManager *)createManager;
 + (PoporAFNConfig *)share;
 

@@ -28,7 +28,7 @@
     config.afnSMBlock = ^AFHTTPSessionManager *{
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         
-        manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+        manager.requestSerializer  = [AFJSONRequestSerializer serializer];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]; // 不然不支持www.baidu.com.
         
@@ -44,8 +44,17 @@
     
     // 测试网络请求
     [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
-    [PoporAFNTool postUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
+    //[PoporAFNTool postUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
     
+    [PoporNetRecord addUrl:@"http://www.baidu.com/testText1" method:@"POST" head:@"head" request:nil response:@"response"];
+    
+    [PoporAFNTool getUrl:@"http://192.168.2.174:8081/" parameters:nil success:^(NSString * _Nonnull url, NSData * _Nonnull data, NSDictionary * _Nonnull dic) {
+        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"str: %@", str);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
     //[self downloadAction];
 }
 

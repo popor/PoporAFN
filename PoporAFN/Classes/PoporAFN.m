@@ -63,7 +63,17 @@ static NSString * MethodPost = @"POST";
             success(urlString, responseObject, dic);
         }
 #if TARGET_OS_IOS
-        [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:dic];
+        if (dic) {
+            [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:dic];
+        }else{
+            NSString * str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            
+            if (str) {
+                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:str];
+            }else{
+                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:nil];
+            }
+        }
         
 #elif TARGET_OS_MAC || TARGET_OS_TV || TARGET_OS_WATCH
         
