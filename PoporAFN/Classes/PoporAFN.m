@@ -25,10 +25,19 @@ static NSString * MethodPost = @"POST";
 
 @implementation PoporAFN
 
+// 使用默认 AFHTTPSessionManager
 - (void)postUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure {
     
+    [self postAFNManager:nil url:urlString parameters:parameters success:success failure:failure];
+}
+
+// 使用自定义 AFHTTPSessionManager
+- (void)postAFNManager:(AFHTTPSessionManager * _Nullable)manager url:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure {
+    
     NSString * method = MethodPost;
-    AFHTTPSessionManager *manager = [PoporAFNConfig createManager];
+    if (!manager) {
+        manager = [PoporAFNConfig createManager];
+    }
     __weak typeof(manager) weakManager = manager;
     
     [manager POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -36,12 +45,22 @@ static NSString * MethodPost = @"POST";
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [PoporAFN failManager:weakManager url:urlString method:method parameters:parameters task:task error:error failure:failure];
     }];
+    
 }
 
+// 使用默认 AFHTTPSessionManager
 - (void)getUrl:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure {
     
+    [self getAFNManager:nil url:urlString parameters:parameters success:success failure:failure];
+}
+
+// 使用自定义 AFHTTPSessionManager
+- (void)getAFNManager:(AFHTTPSessionManager * _Nullable)manager url:(NSString *_Nullable)urlString parameters:(NSDictionary * _Nullable)parameters success:(PoporAFNFinishBlock _Nullable )success failure:(PoporAFNFailureBlock _Nullable)failure {
+    
     NSString * method = MethodGet;
-    AFHTTPSessionManager *manager = [PoporAFNConfig createManager];
+    if (!manager) {
+        manager = [PoporAFNConfig createManager];
+    }
     __weak typeof(manager) weakManager = manager;
     
     [manager GET:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

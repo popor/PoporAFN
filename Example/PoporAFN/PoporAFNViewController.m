@@ -58,6 +58,25 @@
     //[self downloadAction];
 }
 
+// 使用自定义的AFNManage
+- (void)customeAFNManage {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    manager.requestSerializer     = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer    = [AFHTTPResponseSerializer serializer];
+    
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]; // 不然不支持www.baidu.com.
+    
+    [manager.requestSerializer setValue:@"iOS" forHTTPHeaderField:@"system"];
+    
+    manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    manager.requestSerializer.timeoutInterval = 10.0f;
+    
+    
+    [PoporAFNTool getAFNManager:manager url:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
+}
+
 - (void)downloadAction {
     NSURL * URL = [NSURL URLWithString:@"https://stdl.qq.com/stdl/MACQQBrowser/kantu/img/gallery/1.png"];
     URL = [NSURL URLWithString:@"https://dldir1.qq.com/qqfile/QQforMac/QQ_V6.5.2.dmg"];
