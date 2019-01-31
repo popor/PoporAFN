@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BABDDECFD9C967DDF72746650B2EA8C1"
+               BlueprintIdentifier = "197844ED4E7B41AB16FAB97129A5137D"
                BlueprintName = "JSONSyntaxHighlight"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "JSONSyntaxHighlight.framework">

@@ -10,8 +10,9 @@
 
 @interface PnrListVCCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel * titleL;
+@property (nonatomic, strong) UILabel * requestL;
+@property (nonatomic, strong) UILabel * domainL;
+
 @property (nonatomic, strong) UILabel * timeL;
-@property (nonatomic, strong) UILabel * subtitleL;
 
 @end

@@ -10,6 +10,7 @@
 
 @interface PnrVCEntity : NSObject
 
+@property (nonatomic, strong) NSString * title;
 @property (nonatomic, strong) NSString * url;
 @property (nonatomic, strong) NSString * domain;
 @property (nonatomic, strong) NSString * request;

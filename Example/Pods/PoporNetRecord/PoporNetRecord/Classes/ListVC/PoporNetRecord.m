@@ -45,29 +45,37 @@
     return instance;
 }
 
-+ (void)addUrl:(NSString *)urlString method:(NSString *)method head:(id)headValue request:(id)requestValue response:(id)responseValue {
++ (void)addUrl:(NSString *)urlString method:(NSString *)method head:(id)headValue request:(id)requestValue response:(id)responseValue
+{
+    [self addUrl:urlString title:nil method:method head:headValue request:requestValue response:responseValue];
+}
+
++ (void)addUrl:(NSString *)urlString title:(NSString *)title method:(NSString *)method head:(id)headValue request:(id)requestValue response:(id)responseValue;{
+    
     if ([PoporNetRecord share].isShow) {
         PnrVCEntity * entity = [PnrVCEntity new];
-        entity.url = urlString;
-        if (urlString.length>0) {
-            NSURL * url = [NSURL URLWithString:urlString];
-            entity.domain = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
-            if (entity.domain.length < urlString.length) {
-                entity.request = [urlString substringFromIndex:entity.domain.length];
-            }
-        }
-        
+        entity.title         = title;
+        entity.url           = urlString;
         entity.method        = method;
         entity.headValue     = headValue;
         entity.requesValue   = requestValue;
         entity.responseValue = responseValue;
+        entity.time          = [NSDate stringFromDate:[NSDate date] formatter:@"HH:mm:ss"];
         
-        entity.time = [NSDate stringFromDate:[NSDate date] formatter:@"HH:mm:ss"];
+        if (urlString.length>0) {
+            NSURL * url = [NSURL URLWithString:urlString];
+            entity.domain = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
+            if (entity.domain.length+1 < urlString.length) {
+                entity.request = [urlString substringFromIndex:entity.domain.length+1];
+            }
+        }
+        // 移除超出限制的数据请求
         if ([PoporNetRecord share].infoArray.count >= [PoporNetRecord share].config.recordMaxNum) {
             [[PoporNetRecord share].infoArray removeLastObject];
         }
+        // 插入到第一条
         [[PoporNetRecord share].infoArray insertObject:entity atIndex:0];
-        
+        // 假如在打开界面的时候收到请求,那么刷新数据
         if ([PoporNetRecord share].config.freshBlock) {
             [PoporNetRecord share].config.freshBlock();
         }
@@ -128,8 +136,7 @@
     if (self.config.presentNCBlock) {
         self.config.presentNCBlock(oneNC);
     }
-    if (self.window.rootViewController.presentationController
-        && self.window.rootViewController.presentedViewController) {
+    if (self.window.rootViewController.presentationController && self.window.rootViewController.presentedViewController) {
         [self.window.rootViewController.presentedViewController presentViewController:oneNC animated:YES completion:nil];
     }else{
         [self.window.rootViewController presentViewController:oneNC animated:YES completion:nil];
@@ -267,11 +274,12 @@
         _ballBT.hidden = YES;
     }
     
-    
 }
+
 // 把ballBT提到最高层.
 + (void)bringFrontBallBT {
     PoporNetRecord * pnr = [PoporNetRecord share];
     [pnr.window bringSubviewToFront:pnr.ballBT];
 }
+
 @end

@@ -81,10 +81,12 @@
         l.text = att.string;
     }else{
         l.attributedText = att;
+        //NSLog(@"att : %@", att.string);
     }
-    
     [l sizeToFit];
-    return MAX(l.frame.size.height + 6, 56);
+    
+    return l.frame.size.height + 20;
+    //return MAX(l.frame.size.height + 6, 56);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

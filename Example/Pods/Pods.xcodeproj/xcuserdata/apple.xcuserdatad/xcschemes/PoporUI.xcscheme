@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6571DF9E9CA716EA83DAB9079A285EC2"
+               BlueprintIdentifier = "A25289CCF3377C626F5F0B5A97027769"
                BlueprintName = "PoporUI"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "PoporUI.framework">

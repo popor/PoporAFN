@@ -23,7 +23,7 @@ PODS:
     - GCDWebServer/Core
   - JSONSyntaxHighlight (1.0.0)
   - Masonry (1.1.0)
-  - PoporAFN (0.0.10):
+  - PoporAFN (0.0.11):
     - AFNetworking
     - PoporFoundation/PrefixCore
     - PoporNetRecord
@@ -45,7 +45,7 @@ PODS:
   - PoporFoundation/PrefixCore (0.0.28):
     - PoporFoundation/PrefixOs
   - PoporFoundation/PrefixOs (0.0.28)
-  - PoporNetRecord (0.0.31):
+  - PoporNetRecord (0.0.33):
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
@@ -54,15 +54,15 @@ PODS:
     - PoporFoundation/NSDate
     - PoporFoundation/NSDictionary
     - PoporFoundation/NSString
-    - PoporNetRecord/DetailVC (= 0.0.31)
-    - PoporNetRecord/entity (= 0.0.31)
-    - PoporNetRecord/ListVC (= 0.0.31)
-    - PoporNetRecord/WebVC (= 0.0.31)
+    - PoporNetRecord/DetailVC (= 0.0.33)
+    - PoporNetRecord/entity (= 0.0.33)
+    - PoporNetRecord/ListVC (= 0.0.33)
+    - PoporNetRecord/WebVC (= 0.0.33)
     - PoporUI/IToast
     - PoporUI/UIImage
     - PoporUI/UITextField
     - PoporUI/UIView
-  - PoporNetRecord/DetailVC (0.0.31):
+  - PoporNetRecord/DetailVC (0.0.33):
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
@@ -77,7 +77,7 @@ PODS:
     - PoporUI/UIImage
     - PoporUI/UITextField
     - PoporUI/UIView
-  - PoporNetRecord/entity (0.0.31):
+  - PoporNetRecord/entity (0.0.33):
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
@@ -90,7 +90,7 @@ PODS:
     - PoporUI/UIImage
     - PoporUI/UITextField
     - PoporUI/UIView
-  - PoporNetRecord/ListVC (0.0.31):
+  - PoporNetRecord/ListVC (0.0.33):
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
@@ -106,7 +106,7 @@ PODS:
     - PoporUI/UIImage
     - PoporUI/UITextField
     - PoporUI/UIView
-  - PoporNetRecord/WebVC (0.0.31):
+  - PoporNetRecord/WebVC (0.0.33):
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
@@ -160,13 +160,13 @@ SPEC CHECKSUMS:
   GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
   JSONSyntaxHighlight: 8685d8ad0259b909dc97a829fdfbefbec363f449
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporAFN: 3e1a3421c3fe04574bf2b8a1bf5b8ee4d7b5c886
+  PoporAFN: 006a9f870649bd33d7a295e15f3b102d083736d0
   PoporAlertBubbleView: aea73e383fca9d7dedda533fac160c9e66c720cf
   PoporFoundation: fc84ffacadb2dd559c39146baff797b6c3d9f328
-  PoporNetRecord: 1db7ab95b161a594643d3472e765b250aa433853
+  PoporNetRecord: f669b1b449a9afd3ad7a92d6c1e0b86a50718b92
   PoporQRCodeIos: c084b3873b2df1c86be06ad7d62574b994eaf8e2
   PoporUI: 682896c851aacce3f515e9f76b5b6f7ab26e0b7b
 
 PODFILE CHECKSUM: ea0f367957234676e567f77eae60ee85ba1ab9af
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.6.0.rc.1

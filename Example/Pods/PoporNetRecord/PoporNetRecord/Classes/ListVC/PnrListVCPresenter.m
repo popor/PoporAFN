@@ -63,6 +63,10 @@
     }
 }
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.view.infoTV) {
         return 55;
@@ -89,7 +93,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.view.infoTV) {
-        static NSString * CellID = @"infoTV";
+        static NSString * CellID   = @"infoTV";
+        static UIFont * cellFont15;
+        if (!cellFont15) {
+            cellFont15 = [UIFont systemFontOfSize:15];
+        }
         PnrListVCCell * cell = [tableView dequeueReusableCellWithIdentifier:CellID];
         if (!cell) {
             cell = [[PnrListVCCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellID];
@@ -97,10 +105,22 @@
         }
         PnrVCEntity * entity = self.view.weakInfoArray[indexPath.row];
         
-        cell.titleL.text    = entity.request;
-        cell.timeL.text     = entity.time;
-        cell.subtitleL.text = entity.domain;
+        if (entity.title) {
+            NSMutableAttributedString * att = [NSMutableAttributedString new];
+            [att addString:entity.title font:cellFont15 color:ColorBlack3];
+            [att addString:[NSString stringWithFormat:@" %@", entity.request] font:cellFont15 color:ColorBlack6];
+            cell.requestL.attributedText = att;
+        }else{
+            cell.requestL.text = entity.request;
+        }
+        cell.timeL.text    = entity.time;
+        cell.domainL.text  = entity.domain;
         
+        if (indexPath.row%2 == 0) {
+            cell.backgroundColor = [UIColor whiteColor];
+        }else{
+            cell.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+        }
         return cell;
     }else{
         static NSString * CellID = @"alertTV";
@@ -138,8 +158,13 @@
         PnrVCEntity * entity = self.view.weakInfoArray[indexPath.row];
         //NSString * requestDes  = [self replaceUnicode:[entity.requestDic description]];
         //NSString * responseDes = [self replaceUnicode:[entity.responseDic description]];
-        
-        NSArray * titleArray = @[[NSString stringWithFormat:@"接口:\n%@", entity.request],
+        NSString * title;
+        if (entity.title) {
+            title = [NSString stringWithFormat:@" %@\n%@", entity.title, entity.request];
+        }else{
+            title = [NSString stringWithFormat:@" \n%@",entity.request];
+        }
+        NSArray * titleArray = @[[NSString stringWithFormat:@"接口:%@", title],
                                  [NSString stringWithFormat:@"链接:\n%@", entity.url],
                                  [NSString stringWithFormat:@"时间:\n%@", entity.time],
                                  [NSString stringWithFormat:@"方法:\n%@", entity.method],

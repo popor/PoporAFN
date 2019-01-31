@@ -23,13 +23,13 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
 
 
 @interface PnrWebPortEntity ()
-    
-    @property (nonatomic, getter=isRun) BOOL run;
-    
-    @end
+
+@property (nonatomic, getter=isRun) BOOL run;
+
+@end
 
 @implementation PnrWebPortEntity
-    
+
 + (instancetype)share {
     static dispatch_once_t once;
     static id instance;
@@ -38,14 +38,14 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
     });
     return instance;
 }
-    
+
 - (id)init {
     if (self = [super init]) {
         [self initPort];
     }
     return self;
 }
-    
+
 - (void)initPort {
     //------- 端口号
     NSString * allPortString      = [PnrWebPortEntity getAllPort];
@@ -98,7 +98,7 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
     
     //-------
 }
-    
+
 #pragma mark - server
 - (void)startServerTitle:(NSArray *)titleArray json:(NSArray *)jsonArray {
     if (!self.isRun) {
@@ -113,7 +113,7 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
         }
     }
 }
-    
+
 - (void)addServer {
     
     NSMutableArray * webServerArray = [NSMutableArray new];
@@ -158,7 +158,7 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
         self.webServerAll = server;
     }
 }
-    
+
 - (GCDWebServer *)addIndex:(int)index port:(int)port array:(NSMutableArray *)array {
     NSString * title = self.titleArray[index];
     id content = self.jsonArray[index];
@@ -191,7 +191,7 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
         return nil;
     }
 }
-    
+
 - (void)stopServer {
     
     [self.webServerAll      stop];
@@ -206,57 +206,57 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
     
     self.run               = NO;
 }
-    
+
 #pragma mark - plist
 + (void)saveAllPort:(NSString *)allPort {
     [[NSUserDefaults standardUserDefaults] setObject:allPort forKey:PoporNetRecord_allPort];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (NSString *)getAllPort {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_allPort];
     return info;
 }
-    
-    //
+
+//
 + (void)saveHeadPort:(NSString *)headPort {
     [[NSUserDefaults standardUserDefaults] setObject:headPort forKey:PoporNetRecord_headPort];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (NSString *)getHeadPort {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_headPort];
     return info;
 }
-    
-    //
+
+//
 + (void)saveRequestPort:(NSString *)requestPort {
     [[NSUserDefaults standardUserDefaults] setObject:requestPort forKey:PoporNetRecord_requestPort];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (NSString *)getRequestPort {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_requestPort];
     return info;
 }
-    
-    //
+
+//
 + (void)saveResponsePort:(NSString *)responsePort {
     [[NSUserDefaults standardUserDefaults] setObject:responsePort forKey:PoporNetRecord_responsePort];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (NSString *)getResponsePort {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_responsePort];
     return info;
 }
-    
-    //
+
+//
 + (void)saveJsonWindow:(BOOL)jsonWindow {
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%i", jsonWindow] forKey:PoporNetRecord_JsonWindow];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (BOOL)getJsonWindow {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_JsonWindow];
     if (info) {
@@ -266,13 +266,13 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
         return NO;
     }
 }
-    
-    //
+
+//
 + (void)saveDetailVCStartServer:(BOOL)detailVCStartServer {
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%i", detailVCStartServer] forKey:PoporNetRecord_DetailVCStartServer];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-    
+
 + (BOOL)getDetailVCStartServer {
     NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:PoporNetRecord_DetailVCStartServer];
     if (info) {
@@ -282,5 +282,5 @@ static NSString * PoporNetRecord_DetailVCStartServer = @"PoporNetRecord_DetailVC
         return YES;
     }
 }
-    
-    @end
+
+@end

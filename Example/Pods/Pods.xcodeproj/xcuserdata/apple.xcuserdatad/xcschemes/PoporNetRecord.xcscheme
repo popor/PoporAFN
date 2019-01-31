@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D29E4BFC68E9A79C9791E8C6794CFA37"
+               BlueprintIdentifier = "E736BF7C00B0057D9F83D361C3BB60FD"
                BlueprintName = "PoporNetRecord"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "PoporNetRecord.framework">
