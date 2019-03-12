@@ -174,7 +174,14 @@
 
 #pragma mark 空格URL
 - (NSString *)toUrlEncode {
-    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+    // https://www.jianshu.com/p/ffbb95e01489
+    return CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)self,
+                                                              (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                              NULL,
+                                                              kCFStringEncodingUTF8));
+    // 下面的方法,多次转换后,会不一样.不够安全.
+    //return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
 }
 
 - (NSString *)toUtf8Encode {

@@ -103,14 +103,14 @@ static NSString * MethodPost = @"POST";
         }
 #if TARGET_OS_IOS
         if (dic) {
-            [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:dic];
+            [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders parameter:parameters response:dic];
         }else{
             NSString * str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
             
             if (str) {
-                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:str];
+                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders parameter:parameters response:str];
             }else{
-                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:nil];
+                [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders parameter:parameters response:nil];
             }
         }
         
@@ -131,7 +131,7 @@ static NSString * MethodPost = @"POST";
             failure(task, error);
         }
 #if TARGET_OS_IOS
-        [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders request:parameters response:@{@"异常":error.localizedDescription}];
+        [PoporNetRecord addUrl:task.currentRequest.URL.absoluteString title:title method:method head:manager.requestSerializer.HTTPRequestHeaders parameter:parameters response:@{@"异常":error.localizedDescription}];
         
 #elif TARGET_OS_MAC || TARGET_OS_TV || TARGET_OS_WATCH
         

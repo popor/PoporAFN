@@ -46,7 +46,7 @@
     [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" title:@"JSON接口" parameters:@{@"test":@"test1"} afnManager:nil success:nil failure:nil];
     //[PoporAFNTool postUrl:@"https://api.androidhive.info/volley/person_object.json" parameters:@{@"test":@"test1"} success:nil failure:nil];
     
-    [PoporNetRecord addUrl:@"http://www.baidu.com/testText1" title:@"网络假接口" method:@"POST" head:@"head" request:nil response:@"response"];
+    [PoporNetRecord addUrl:@"http://www.baidu.com/testText1" title:@"网络假接口" method:@"POST" head:@"head" parameter:nil response:@"response"];
     
     [PoporAFNTool getUrl:@"http://192.168.2.174:8081/" title:@"本地假接口" parameters:nil afnManager:nil success:^(NSString * _Nonnull url, NSData * _Nonnull data, NSDictionary * _Nonnull dic) {
         NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

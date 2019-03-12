@@ -466,7 +466,6 @@
 				"${BUILT_PRODUCTS_DIR}/PoporAlertBubbleView/PoporAlertBubbleView.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporFoundation-16e6ff9b/PoporFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporNetRecord/PoporNetRecord.framework",
-				"${BUILT_PRODUCTS_DIR}/PoporQRCodeIos/PoporQRCodeIos.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -479,7 +478,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporAlertBubbleView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporNetRecord.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporQRCodeIos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PoporUI.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
