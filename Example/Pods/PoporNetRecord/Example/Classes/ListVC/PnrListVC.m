@@ -9,7 +9,7 @@
 #import "PnrListVCPresenter.h"
 #import "PnrListVCRouter.h"
 
-#import "PoporNetRecord.h"
+#import "PnrConfig.h"
 #import <Masonry/Masonry.h>
 #import <PoporUI/UINavigationController+Size.h>
 
@@ -72,7 +72,7 @@
     [self addViews];
     
     __weak typeof(self) weakSelf = self;
-    [PoporNetRecord share].config.freshBlock = ^{
+    [PnrConfig share].freshBlock = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.infoTV reloadData];
         });

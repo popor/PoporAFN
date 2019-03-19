@@ -12,13 +12,6 @@
 #import "PnrPrefix.h"
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString * PnrPathRoot      = @"root";
-static NSString * PnrPathHead      = @"head";
-static NSString * PnrPathParameter = @"parameter";
-static NSString * PnrPathResponse  = @"response";
-static NSString * PnrPathEdit      = @"edit";
-static NSString * PnrPathResubmit  = @"resubmit";
-
 typedef NS_ENUM(int, PoporNetRecordType) {
     PoporNetRecordAuto = 1, // 开发环境或者虚拟机环境
     PoporNetRecordEnable, // 全部监测
@@ -41,12 +34,13 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 #pragma mark - 列表配置参数
 // = (listFontTitle+3) + (listFontDomain+3) + PnrListCellGap*3,可以通过updateListCellHeight设置
 @property (nonatomic        ) float   listCellHeight;
-
+//------------------------------------------------------------------------------
 @property (nonatomic, strong) UIFont  * listFontTitle;// 标题
 @property (nonatomic, strong) UIFont  * listFontRequest;// 请求
 @property (nonatomic, strong) UIFont  * listFontDomain;// 域名
 @property (nonatomic, strong) UIFont  * listFontTime;// 时间
 
+//------------------------------------------------------------------------------
 @property (nonatomic, strong) UIColor * listColorTitle;// 标题
 @property (nonatomic, strong) UIColor * listColorRequest;// 请求
 @property (nonatomic, strong) UIColor * listColorDomain;// 域名
@@ -71,7 +65,7 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, strong) NSString * rootColorKeyHex;
 @property (nonatomic, strong) NSString * rootColorValueHex;
 
-
+//------------------------------------------------------------------------------
 #pragma mark - 请求详情配置
 // 详情假如 att font 不为15也需要设置.
 @property (nonatomic, strong) UIFont       * cellTitleFont;
@@ -79,9 +73,15 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, strong) NSDictionary * keyAttributes;// key值颜色
 @property (nonatomic, strong) NSDictionary * stringAttributes;// value string颜色
 @property (nonatomic, strong) NSDictionary * nonStringAttributes;// value int颜色
+//------------------------------------------------------------------------------
 
+@property (nonatomic, strong) NSString * vcRootTitle;// VC标题
+@property (nonatomic, strong) NSString * webRootTitle;// 网页标题
+@property (nonatomic, strong) NSData   * webIconData;
+
+//------------------------------------------------------------------------------
 @property (nonatomic        ) PoporNetRecordType recordType;//监测类型
-@property (nonatomic        ) PoporNetRecordType listWebType;//网页显示数据
+@property (nonatomic        ) PoporNetRecordType webType;//网页显示数据
 
 @property (nonatomic, copy  ) BlockPVoid            freshBlock;
 @property (nonatomic, copy  ) PoporNetRecordNcBlock presentNCBlock;// 用户更新 presentViewController NC的状态

@@ -32,6 +32,6 @@
 // 增加title
 + (void)addUrl:(NSString *)urlString title:(NSString *)title method:(NSString *)method head:(id)headValue parameter:(id)parameterValue response:(id)responseValue;
 
-+ (void)setPnrResubmitBlock:(PnrResubmitBlock)block extraDic:(NSDictionary *)dic;
++ (void)setPnrBlockResubmit:(PnrBlockResubmit)block extraDic:(NSDictionary *)dic;
 
 @end

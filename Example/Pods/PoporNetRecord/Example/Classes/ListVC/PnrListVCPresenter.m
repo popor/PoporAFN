@@ -8,11 +8,12 @@
 #import "PnrListVCPresenter.h"
 #import "PnrListVCInteractor.h"
 
+#import "PnrWebServer.h"
+#import "PnrConfig.h"
+
 #import "PnrDetailVCRouter.h"
-#import "PnrServerTool.h"
 #import "PnrListVCCell.h"
 #import <PoporFoundation/NSString+format.h>
-#import "PnrConfig.h"
 #import <PoporUI/UIDevice+Tool.h>
 #import <PoporUI/UIImage+create.h>
 
@@ -202,7 +203,7 @@
     [self.view.infoTV reloadData];
     
     // 清空记录
-    [[PnrServerTool share] clearListWeb];
+    [[PnrWebServer share] clearListWeb];
 }
 
 - (void)setTextColorAction:(UIBarButtonItem *)sender event:(UIEvent *)event {
@@ -273,7 +274,7 @@
 }
 
 - (void)updateServerBT {
-    PnrServerTool * tool = [PnrServerTool share];
+    PnrWebServer * tool = [PnrWebServer share];
     UIButton * oneBT = self.view.serverBT;
     if (tool.webServer.serverURL) {
         UIImage * image = [UIImage imageFromColor:PnrColorGreen size:CGSizeMake(10, 10) corner:5];

@@ -8,7 +8,7 @@
 
 #import "PoporNetRecord.h"
 #import "PnrEntity.h"
-#import "PnrServerTool.h"
+#import "PnrWebServer.h"
 
 #import "PnrListVCRouter.h"
 #import <PoporUI/UIView+Extension.h>
@@ -39,7 +39,7 @@
         instance.view      = [PnrView share];
         
         // 相关联的关联数组
-        [PnrServerTool share].infoArray = instance.infoArray;
+        [PnrWebServer share].infoArray = instance.infoArray;
         instance.view.infoArray = instance.infoArray;
         
     });
@@ -85,7 +85,9 @@
         if (pnr.config.isShowListWeb) {
             [entity createListWebH5:pnr.infoArray.count - 1];
             [pnr.listWebH5 insertString:entity.listWebH5 atIndex:0];
-            [[PnrServerTool share] startListServer:pnr.listWebH5];
+            [[PnrWebServer share] startListServer:pnr.listWebH5];
+        }else{
+            [[PnrWebServer share] stopServer];
         }
         
         // 假如在打开界面的时候收到请求,那么刷新数据
@@ -95,9 +97,9 @@
     }
 }
 
-+ (void)setPnrResubmitBlock:(PnrResubmitBlock)block extraDic:(NSDictionary *)dic {
-    [PnrServerTool share].resubmitBlock = block;
-    [PnrServerTool share].resubmitExtraDic = dic;
++ (void)setPnrBlockResubmit:(PnrBlockResubmit)block extraDic:(NSDictionary *)dic {
+    [PnrWebServer share].resubmitBlock = block;
+    [PnrWebServer share].resubmitExtraDic = dic;
 }
 
 @end

@@ -21,19 +21,17 @@
     NSString * bgColor = index%2==1 ? config.listColorCell0Hex:config.listColorCell1Hex;
     NSMutableString * h5 = [NSMutableString new];
     
-    [h5 appendFormat:@"<div style=\" background:%@; height:50px; position:relative; \" onclick= \"javascript:location.href='/%i/%@'\" >", bgColor, (int)index, PnrPathRoot];
+    [h5 appendFormat:@"\n\n <div style=\" background:%@; width:100%%; height:%ipx; position:relative; \" onclick= \"parent.detail(%i);\" >", bgColor, PnrListHeight, (int)index];
     
-    [h5 appendString:@"<div style=\" position:relative; top:4px; left:5px; \">"];
+    [h5 appendString:@"\n <div style=\" position:relative; width:100%%; top:4px; left:5px; \" >"];
     
-    [h5 appendFormat:@"<font color='%@'>%@ </font> <font color='%@'>%@  </font>", config.listColorTitleHex, self.title , config.listColorRequestHex, [self.path substringToIndex:MIN(self.path.length, 80)]];
-    [h5 appendFormat:@"<br/> <font color='%@'>%@  </font> <font color='%@'>%@ </font>", config.listColorTimeHex, self.time, config.listColorDomainHex, self.domain];
+    [h5 appendFormat:@"\n <div class='oneLine' ><font color='%@'>%@ </font> <font color='%@'>%@  </font> </div>", config.listColorTitleHex, self.title , config.listColorRequestHex, [self.path substringToIndex:MIN(self.path.length, 80)]];
+    [h5 appendFormat:@"\n <div class='oneLine' >\n<font color='%@'>%@  </font> <font color='%@'>%@ </font> </div>", config.listColorTimeHex, self.time, config.listColorDomainHex, self.domain];
     
     [h5 appendString:@"</div></div>"];
     
     self.listWebH5 = [h5 copy];
 }
-
-
 
 - (NSArray *)titleArray {
     PnrEntity * entity = self;
@@ -44,13 +42,13 @@
         title = [NSString stringWithFormat:@" \n%@",entity.path];
     }
     NSArray * titleArray = @[[NSString stringWithFormat:@"%@\n%@", PnrRootPath1, title],
-                             [NSString stringWithFormat:@"%@\n%@", PnrRootUrl1, entity.url],
-                             [NSString stringWithFormat:@"%@\n%@", PnrRootTime2, entity.time],
-                             [NSString stringWithFormat:@"%@\n%@", PnrRootMethod3, entity.method],
+                             [NSString stringWithFormat:@"%@\n%@", PnrRootUrl2, entity.url],
+                             [NSString stringWithFormat:@"%@\n%@", PnrRootTime3, entity.time],
+                             [NSString stringWithFormat:@"%@\n%@", PnrRootMethod4, entity.method],
                              
-                             [NSString stringWithFormat:@"%@\n", PnrRootHead4],
-                             [NSString stringWithFormat:@"%@\n", PnrRootParameter5],
-                             [NSString stringWithFormat:@"%@\n", PnrRootResponse6],
+                             [NSString stringWithFormat:@"%@\n", PnrRootHead5],
+                             [NSString stringWithFormat:@"%@\n", PnrRootParameter6],
+                             [NSString stringWithFormat:@"%@\n", PnrRootResponse7],
                              ];
     return titleArray;
 }

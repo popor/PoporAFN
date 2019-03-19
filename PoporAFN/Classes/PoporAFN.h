@@ -14,11 +14,33 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^PoporAFNFinishBlock)(NSString *url, NSData *data, NSDictionary *dic);
 typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error);
 
+typedef NS_ENUM(int, PoporMethod) {
+    PoporMethodGet  = 1,
+    PoporMethodPost = 2,
+};
+
 #define PoporAFNTool [PoporAFN new]
 
 @interface PoporAFN : NSObject
 
-#pragma mark - post
+#pragma mark - NEW
+- (void)url:(NSString *_Nullable)urlString
+     method:(PoporMethod)method
+ parameters:(NSDictionary *_Nullable)parameters
+    success:(PoporAFNFinishBlock _Nullable)success
+    failure:(PoporAFNFailureBlock _Nullable)failure;
+
+// manager 可以设置head
+- (void)title:(NSString *_Nullable)title
+       record:(BOOL)record
+          url:(NSString *_Nullable)urlString
+       method:(PoporMethod)method
+   parameters:(NSDictionary *_Nullable)parameters
+   afnManager:(AFHTTPSessionManager *_Nullable)manager
+      success:(PoporAFNFinishBlock _Nullable)success
+      failure:(PoporAFNFailureBlock _Nullable)failure;
+
+#pragma mark - OLD
 // 使用默认 AFHTTPSessionManager
 - (void)postUrl:(NSString *_Nullable)urlString
      parameters:(NSDictionary * _Nullable)parameters
@@ -33,7 +55,6 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
         success:(PoporAFNFinishBlock _Nullable)success
         failure:(PoporAFNFailureBlock _Nullable)failure;
 
-#pragma mark - get
 // 使用默认 AFHTTPSessionManager
 - (void)getUrl:(NSString *_Nullable)urlString
     parameters:(NSDictionary * _Nullable)parameters
@@ -42,7 +63,7 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
 
 // 使用自定义 AFHTTPSessionManager,title
 - (void)getUrl:(NSString *_Nullable)urlString
-          title:(NSString *_Nullable)title
+         title:(NSString *_Nullable)title
     parameters:(NSDictionary * _Nullable)parameters
     afnManager:(AFHTTPSessionManager * _Nullable)manager
        success:(PoporAFNFinishBlock _Nullable)success

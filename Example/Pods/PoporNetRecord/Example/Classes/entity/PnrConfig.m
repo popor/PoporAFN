@@ -7,7 +7,6 @@
 
 #import "PnrConfig.h"
 
-#import "PnrServerTool.h"
 #import <PoporFoundation/PrefixFun.h>
 
 @interface PnrConfig ()
@@ -30,7 +29,11 @@
         instance.normalAlpha         = 0.6;
 
         instance.recordType          = PoporNetRecordAuto;
-        instance.listWebType         = PoporNetRecordAuto;
+        instance.webType             = PoporNetRecordAuto;
+        
+        instance.vcRootTitle         = @"网络请求";
+        instance.webRootTitle        = @"网络请求";
+        
         UIFont * font                = [UIFont systemFontOfSize:15];
         //NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         //paraStyle.lineSpacing = 1;
@@ -103,9 +106,9 @@
     }
 }
 
-- (void)setListWebType:(PoporNetRecordType)listWebType {
-    if (_listWebType == 0 || _listWebType != listWebType) {
-        _listWebType = listWebType;
+- (void)setWebType:(PoporNetRecordType)listWebType {
+    if (_webType == 0 || _webType != listWebType) {
+        _webType = listWebType;
         
         switch (listWebType) {
             case PoporNetRecordAuto:
@@ -116,7 +119,6 @@
                     _showListWeb = YES;
                 }else{
                     _showListWeb = NO;
-                    [self stopListWebEvent];
                 }
 #endif
                 break;
@@ -126,7 +128,6 @@
                 
             case PoporNetRecordDisable:
                 _showListWeb = NO;
-                [self stopListWebEvent];
                 break;
                 
             default:
@@ -134,11 +135,6 @@
         }
         
     }
-}
-
-- (void)stopListWebEvent {
-    PnrServerTool * serverTool = [PnrServerTool share];
-    [serverTool stopServer];
 }
 
 - (BOOL)isRecord {

@@ -8,7 +8,7 @@
 
 #import "PnrView.h"
 #import "PnrEntity.h"
-#import "PnrServerTool.h"
+#import "PnrWebServer.h"
 
 #import "PnrListVCRouter.h"
 #import <PoporUI/UIView+Extension.h>
@@ -30,8 +30,6 @@
     static PnrView * instance;
     dispatch_once(&once, ^{
         instance = [self new];
-
-        
     });
     return instance;
 }
@@ -41,65 +39,65 @@
         self.sBallHideWidth = 10;
         self.sBallWidth     = 80;
         self.config = [PnrConfig share];
-        
-        [self addViews];
-        [self updateBallHidden];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self addViews];
+        });
     }
     return self;
 }
 
-- (void)updateBallHidden {
-    if (self.config.isRecord) {
-        [self addViews];
-        if (self.config.isCustomBallBtVisible) {
-            self.ballBT.hidden = YES;
-        }else{
-            self.ballBT.hidden = NO;
-        }
-    }else{
-        // 默认设置的是隐藏,假如设置的时候,不允许recorde,那么设置为隐藏
-        self.ballBT.hidden = YES;
-    }
-}
-
 - (void)addViews {
-    if (self.window) {
+    if (self.window && self.ballBT) {
         return;
     }
     self.window = [[UIApplication sharedApplication] keyWindow];
-    self.ballBT = ({
-        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame =  CGRectMake(0, 0, self.sBallWidth, self.sBallWidth);
-        [button setTitle:@"网络请求" forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button setBackgroundColor:[UIColor brownColor]];
-        button.titleLabel.font = [UIFont systemFontOfSize:15];
+    if (self.window) {
+        self.ballBT = ({
+            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.frame =  CGRectMake(0, 0, self.sBallWidth, self.sBallWidth);
+            [button setTitle:@"网络请求" forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [button setBackgroundColor:[UIColor brownColor]];
+            button.titleLabel.font = [UIFont systemFontOfSize:15];
+            
+            button.layer.cornerRadius = button.frame.size.width/2;
+            button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+            button.layer.borderWidth = 1;
+            button.clipsToBounds = YES;
+            
+            [self.window addSubview:button];
+            
+            [button addTarget:self action:@selector(showPnrListVCNC) forControlEvents:UIControlEventTouchUpInside];
+            
+            button;
+        });
+        NSString * pointString = [self getBallPoint];
+        if (pointString) {
+            self.ballBT.center = CGPointFromString(pointString);
+        }else{
+            self.ballBT.center = CGPointMake(self.ballBT.width/2- self.sBallHideWidth, 180);
+        }
         
-        button.layer.cornerRadius = button.frame.size.width/2;
-        button.layer.borderColor = [UIColor lightGrayColor].CGColor;
-        button.layer.borderWidth = 1;
-        button.clipsToBounds = YES;
+        if (self.config.isRecord) {
+            [self addViews];
+            if (self.config.isCustomBallBtVisible) {
+                self.ballBT.hidden = YES;
+            }else{
+                self.ballBT.hidden = NO;
+                self.ballBT.alpha  = self.config.normalAlpha;
+            }
+        }else{
+            // 默认设置的是隐藏,假如设置的时候,不允许recorde,那么设置为隐藏
+            self.ballBT.hidden = YES;
+        }
         
-        [self.window addSubview:button];
-        
-        [button addTarget:self action:@selector(showPnrListVCNC) forControlEvents:UIControlEventTouchUpInside];
-        
-        button;
-    });
-    NSString * pointString = [self getBallPoint];
-    if (pointString) {
-        self.ballBT.center = CGPointFromString(pointString);
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGR:)];
+        [self.ballBT addGestureRecognizer:pan];
     }else{
-        self.ballBT.center = CGPointMake(self.ballBT.width/2- self.sBallHideWidth, 180);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self addViews];
+        });
     }
-    if (self.config.isCustomBallBtVisible) {
-        self.ballBT.hidden = YES;
-    }else{
-        self.ballBT.alpha = self.config.normalAlpha;
-    }
-    
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGR:)];
-    [self.ballBT addGestureRecognizer:pan];
 }
 
 - (void)showPnrListVCNC {
@@ -139,7 +137,7 @@
             weakSelf.closeBlock();
         }
     };
-    UIViewController * vc = [PnrListVCRouter vcWithDic:@{@"title":@"网络请求", @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
+    UIViewController * vc = [PnrListVCRouter vcWithDic:@{@"title":self.config.vcRootTitle, @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
     
     return vc;
 }

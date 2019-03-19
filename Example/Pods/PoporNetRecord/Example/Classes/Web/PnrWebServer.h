@@ -1,5 +1,5 @@
 //
-//  PnrServerTool.h
+//  PnrWebServer.h
 //  PoporNetRecord
 //
 //  Created by apple on 2018/12/18.
@@ -13,22 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PnrServerTool : NSObject
+@interface PnrWebServer : NSObject
 
 + (instancetype)share;
 
 @property (nonatomic, weak  ) PnrPortEntity * portEntity;
 @property (nonatomic, weak  ) NSMutableArray * infoArray; // PoporNetRecord.infoArray
-@property (nonatomic, strong) NSMutableString * h5List;
-@property (nonatomic        ) NSInteger lastIndex;
 
 #pragma mark - server
-@property (nonatomic, strong) NSArray * titleArray;
-@property (nonatomic, strong) NSArray * jsonArray;
-
 @property (nonatomic, strong, nullable) GCDWebServer * webServer;
 
-@property (nonatomic, copy  ) PnrResubmitBlock resubmitBlock;
+@property (nonatomic, copy  ) PnrBlockResubmit resubmitBlock;
 @property (nonatomic, strong) NSDictionary * resubmitExtraDic;
 
 - (void)startListServer:(NSMutableString *)listBodyH5;
