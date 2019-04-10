@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PoporAFNConfig.h"
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,7 +33,6 @@ typedef NS_ENUM(int, PoporMethod) {
 
 // manager 可以设置head
 - (void)title:(NSString *_Nullable)title
-       record:(BOOL)record
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters

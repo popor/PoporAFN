@@ -42,6 +42,11 @@
         return manager;
     };
     
+    // 设置 监测回调结果 block 方法
+    config.recordBlock = ^(NSString *url, NSString *title, NSString *method, id head, id parameters, id response) {
+        [PoporNetRecord addUrl:url title:title method:method head:head parameter:parameters response:response];
+    };
+    
     // 测试网络请求
     // [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" title:@"JSON接口" parameters:@{@"test":@"test1"} afnManager:nil success:nil failure:nil];
     
@@ -57,7 +62,7 @@
     }];
     
     // 新接口
-    [PoporAFNTool title:@"测试" record:YES url:@"https://www.baidu.com" method:PoporMethodGet parameters:nil afnManager:nil success:nil failure:nil];
+    [PoporAFNTool title:@"测试" url:@"https://www.baidu.com" method:PoporMethodGet parameters:nil afnManager:nil success:nil failure:nil];
     
     //[self downloadAction];
 }
