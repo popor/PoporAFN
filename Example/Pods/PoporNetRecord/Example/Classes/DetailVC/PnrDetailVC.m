@@ -7,13 +7,12 @@
 
 #import "PnrDetailVC.h"
 #import "PnrDetailVCPresenter.h"
-#import "PnrDetailVCRouter.h"
+#import "PnrDetailVCInteractor.h"
 
 #import <Masonry/Masonry.h>
-#import <PoporFoundation/NSDictionary+tool.h>
-#import <PoporFoundation/PrefixColor.h>
+#import <PoporFoundation/NSDictionary+pTool.h>
+#import <PoporFoundation/Color+pPrefix.h>
 #import <PoporUI/IToastKeyboard.h>
-#import <PoporUI/UINavigationController+Size.h>
 
 #import "PnrPortEntity.h"
 
@@ -56,16 +55,13 @@
 }
 
 - (void)viewDidLoad {
+    [self assembleViper];
     [super viewDidLoad];
+    
     if (!self.title) {
         self.title = @"PnrDetailVC";
     }
     self.view.backgroundColor = [UIColor whiteColor];
-    if (!self.present) {
-        [PnrDetailVCRouter setVCPresent:self];
-    }
-    
-    [self addViews];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,11 +78,20 @@
     return self;
 }
 
-- (void)setMyPresent:(id)present {
-    self.present = present;
+#pragma mark - views
+- (void)assembleViper {
+    if (!self.present) {
+        PnrDetailVCPresenter * present = [PnrDetailVCPresenter new];
+        PnrDetailVCInteractor * interactor = [PnrDetailVCInteractor new];
+        
+        self.present = present;
+        [present setMyInteractor:interactor];
+        [present setMyView:self];
+        
+        [self addViews];
+    }
 }
 
-#pragma mark - views
 - (void)addViews {
     self.infoTV = [self addTVs];
     self.infoTV.separatorInset = UIEdgeInsetsMake(0, 14, 0, 14);

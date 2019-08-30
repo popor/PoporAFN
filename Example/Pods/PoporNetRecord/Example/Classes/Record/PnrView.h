@@ -10,6 +10,8 @@
 #import "PnrPrefix.h"
 #import "PnrConfig.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface PnrView : NSObject
 
 @property (nonatomic, weak  ) PnrConfig * config;
@@ -39,3 +41,6 @@
 + (void)bringFrontBallBT;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

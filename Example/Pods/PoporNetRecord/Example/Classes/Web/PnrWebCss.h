@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PnrWebCss : NSObject
 
++ (NSString *)cssPMarginPadding;
 // 单行
 + (NSString *)cssDivWordOneLine;
 // 自动变换高度

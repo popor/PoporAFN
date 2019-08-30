@@ -12,4 +12,6 @@
 
 - (instancetype)initWithDic:(NSDictionary *)dic;
 
+- (void)addViews;
+
 @end

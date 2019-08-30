@@ -464,7 +464,7 @@
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporAFN-iOS/PoporAFN.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporAlertBubbleView/PoporAlertBubbleView.framework",
-				"${BUILT_PRODUCTS_DIR}/PoporFoundation-16e6ff9b/PoporFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/PoporFoundation/PoporFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporNetRecord/PoporNetRecord.framework",
 				"${BUILT_PRODUCTS_DIR}/PoporUI/PoporUI.framework",
 			);

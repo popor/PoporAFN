@@ -6,23 +6,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <PoporFoundation/PrefixBlock.h>
-#import <PoporFoundation/PrefixColor.h>
+#import <PoporFoundation/Block+pPrefix.h>
+#import <PoporFoundation/Color+pPrefix.h>
 
 #import "PnrPrefix.h"
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(int, PoporNetRecordType) {
-    PoporNetRecordAuto = 1, // 开发环境或者虚拟机环境
-    PoporNetRecordEnable, // 全部监测
-    PoporNetRecordDisable, // 全部忽略
-};
-
 typedef void(^PoporNetRecordNcBlock) (UINavigationController * nc);
 typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 
-#define PnrColorGreen  RGB16(0x4BB748)
-#define PnrColorRed    RGB16(0xF76738)
+#define PnrColorGreen  PRGB16(0x4BB748)
+#define PnrColorRed    PRGB16(0xF76738)
 #define PnrListCellGap 7
 
 @interface PnrConfig : NSObject
@@ -54,9 +48,21 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 // -----
 @property (nonatomic, strong) UIColor * listColorCell0;// 列表偶数行背景色
 @property (nonatomic, strong) UIColor * listColorCell1;// 列表奇数行背景色
+
+@property (nonatomic        ) int       listWebWidth;// 推荐为 20 - 30 之间
+@property (nonatomic, strong) UIColor * listWebColorCellBg;// web列表背景色
+@property (nonatomic, strong) UIColor * listWebColorCell0;// web列表偶数行背景色
+@property (nonatomic, strong) UIColor * listWebColorCell1;// web列表奇数行背景色
+@property (nonatomic, strong) UIColor * listWebColorBg;// web查看页面颜色
 // ▽
 @property (nonatomic, strong) NSString * listColorCell0Hex;
 @property (nonatomic, strong) NSString * listColorCell1Hex;
+
+@property (nonatomic, strong) NSString * listWebColorCellBgHex;
+@property (nonatomic, strong) NSString * listWebColorCell0Hex;
+@property (nonatomic, strong) NSString * listWebColorCell1Hex;
+@property (nonatomic, strong) NSString * listWebColorBgHex;
+
 
 // -----
 @property (nonatomic, strong) UIColor * rootColorKey;
@@ -86,7 +92,8 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, copy  ) BlockPVoid            freshBlock;
 @property (nonatomic, copy  ) PoporNetRecordNcBlock presentNCBlock;// 用户更新 presentViewController NC的状态
 
-@property (nonatomic        ) BOOL jsonViewColorBlack;// json详情页面是否使用黑白.
+@property (nonatomic        ) PnrListType jsonViewColorBlack;// json详情页面是否使用黑白.
+@property (nonatomic        ) PnrListType jsonViewLogDetail;// Log日志是否显示详情.
 
 // 自定义ballBT可见度, 假如为YES,那么ballBT第一次显示会设置为hidden=YES.
 @property (nonatomic, getter=isCustomBallBtVisible) BOOL customBallBtVisible;
@@ -100,6 +107,10 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 - (BOOL)isShowListWeb;
 
 - (void)updateListCellHeight;
+
+- (void)updateTextColorBlack:(int)color;
+
+- (void)updateLogDetail:(int)detail;
 
 @end
 

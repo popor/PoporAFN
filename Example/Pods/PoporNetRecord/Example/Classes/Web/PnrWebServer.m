@@ -39,7 +39,7 @@
     dispatch_once(&once, ^{
         instance = [PnrWebServer new];
         instance.h5List = [NSMutableString new];
-        instance.h5Root = [PnrWebBody rootBody];
+        instance.h5Root = [PnrWebBody rootBodyIndex:0];
         
         instance.lastIndex  = -1;
         instance.config     = [PnrConfig share];
@@ -61,6 +61,11 @@
 
 #pragma mark - list server
 - (void)startListServer:(NSMutableString *)listBodyH5 {
+    [self startListServerAsyn:listBodyH5];
+}
+
+// 异步执行, GCDWebServer初始化会和主线程冲突.
+- (void)startListServerAsyn:(NSMutableString *)listBodyH5 {
     if (!listBodyH5) {
         return;
     }
@@ -90,7 +95,12 @@
                         }
                     }
                     else{
-                        completionBlock([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
+                        int index = [path intValue];
+                        if ([path isEqualToString:[NSString stringWithFormat:@"%i", index]]) {
+                            completionBlock([GCDWebServerDataResponse responseWithHTML:[PnrWebBody rootBodyIndex:index]]);                            
+                        }else{
+                            completionBlock([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
+                        }
                     }
                 }
             }
@@ -108,9 +118,10 @@
                 if (pathArray.count == 1) {
                     [weakSelf analysisPost1Path:path request:request complete:completionBlock];
                 }
-                else if (pathArray.count == 2) {
-                    [weakSelf analysisPost2Index:[pathArray[0] integerValue] path:pathArray[1] request:request complete:completionBlock];
-                }else{
+                //else if (pathArray.count == 2) {
+                //    [weakSelf analysisPost2Index:[pathArray[0] integerValue] path:pathArray[1] request:request complete:completionBlock];
+                //}
+                else {
                     completionBlock([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
                 }
             }
@@ -156,39 +167,39 @@
 }
 
 // MARK: 分析 post 多层
-- (void)analysisPost2Index:(NSInteger)index path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
-    
-    PnrEntity * entity;
-    if (self.infoArray.count > index) {
-        entity = self.infoArray[index];
-    }
-    if (entity) {
-        if (index != self.lastIndex) {
-            self.lastIndex = index;
-            [self startServerUnitEntity:entity index:index];
-        }
-        if([path isEqualToString:PnrPathResubmit]){
-            if (self.resubmitBlock) {
-                PnrBlockFeedback blockFeedback ;
-                blockFeedback = ^(NSString * feedback) {
-                    if (!feedback) {
-                        feedback = @"NULL";
-                    }
-                    complete([GCDWebServerDataResponse responseWithHTML:[PnrWebBody feedbackH5:feedback]]);
-                };
-                GCDWebServerURLEncodedFormRequest * formRequest= (GCDWebServerURLEncodedFormRequest *)request;
-                self.resubmitBlock(entity, formRequest.arguments, blockFeedback);
-            }else{
-                complete([GCDWebServerDataResponse responseWithHTML:ErrorResubmit]);
-            }
-        }else{
-            complete([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
-        }
-        
-    }else{
-        complete([GCDWebServerDataResponse responseWithHTML:ErrorEntity]);
-    }
-}
+//- (void)analysisPost2Index:(NSInteger)index path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
+//
+//    PnrEntity * entity;
+//    if (self.infoArray.count > index) {
+//        entity = self.infoArray[index];
+//    }
+//    if (entity) {
+//        if (index != self.lastIndex) {
+//            self.lastIndex = index;
+//            [self startServerUnitEntity:entity index:index];
+//        }
+//        if([path isEqualToString:PnrPathResubmit]){
+//            if (self.resubmitBlock) {
+//                PnrBlockFeedback blockFeedback ;
+//                blockFeedback = ^(NSString * feedback) {
+//                    if (!feedback) {
+//                        feedback = @"NULL";
+//                    }
+//                    complete([GCDWebServerDataResponse responseWithHTML:feedback]);
+//                };
+//                GCDWebServerURLEncodedFormRequest * formRequest= (GCDWebServerURLEncodedFormRequest *)request;
+//                self.resubmitBlock(formRequest.arguments, blockFeedback);
+//            }else{
+//                complete([GCDWebServerDataResponse responseWithHTML:ErrorResubmit]);
+//            }
+//        }else{
+//            complete([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
+//        }
+//
+//    }else{
+//        complete([GCDWebServerDataResponse responseWithHTML:ErrorEntity]);
+//    }
+//}
 
 - (void)analysisPost1Path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
     
@@ -201,11 +212,28 @@
         }else{
             complete([GCDWebServerDataResponse responseWithHTML:ErrorEmpty]);
         }
-    }else if ([path isEqualToString:@"favicon.ico"]){
+    }
+    else if([path isEqualToString:PnrPathResubmit]){
+        if (self.resubmitBlock) {
+            PnrBlockFeedback blockFeedback ;
+            blockFeedback = ^(NSString * feedback) {
+                if (!feedback) {
+                    feedback = @"NULL";
+                }
+                complete([GCDWebServerDataResponse responseWithHTML:feedback]);
+            };
+            GCDWebServerURLEncodedFormRequest * formRequest= (GCDWebServerURLEncodedFormRequest *)request;
+            self.resubmitBlock(formRequest.arguments, blockFeedback);
+        }else{
+            complete([GCDWebServerDataResponse responseWithHTML:ErrorResubmit]);
+        }
+    }
+    else if ([path isEqualToString:@"favicon.ico"]){
         if (self.config.webIconData) {
             complete([GCDWebServerDataResponse responseWithData:self.config.webIconData contentType:@"image/x-icon"]);
         }
     }
+    
     else{
         complete([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
     }

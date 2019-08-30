@@ -7,7 +7,10 @@
 
 #import "PnrConfig.h"
 
-#import <PoporFoundation/PrefixFun.h>
+#import <PoporFoundation/Fun+pPrefix.h>
+#import <PoporFoundation/Color+pPrefix.h>
+static NSString * KeyTextColor = @"PoporNetRecord_textColor";
+static NSString * KeyLog       = @"PoporNetRecord_logDetail";
 
 @interface PnrConfig ()
 // 是否开启监测
@@ -53,22 +56,31 @@
         {
             // instance.listCellHeight = 55;
 
-            instance.listFontTitle    = [UIFont systemFontOfSize:16];
-            instance.listFontRequest  = [UIFont systemFontOfSize:14];
-            instance.listFontDomain   = [UIFont systemFontOfSize:15];
-            instance.listFontTime     = [UIFont systemFontOfSize:15];
+            instance.listFontTitle      = [UIFont systemFontOfSize:16];
+            instance.listFontRequest    = [UIFont systemFontOfSize:14];
+            instance.listFontDomain     = [UIFont systemFontOfSize:15];
+            instance.listFontTime       = [UIFont systemFontOfSize:15];
 
-            instance.listColorTitle   = PnrColorGreen;
-            instance.listColorRequest = PnrColorRed;
-            instance.listColorDomain  = ColorBlack3;
-            instance.listColorTime    = ColorBlack6;
+            instance.listColorTitle     = PnrColorGreen;
+            instance.listColorRequest   = PnrColorRed;
+            instance.listColorDomain    = PColorBlack3;
+            instance.listColorTime      = PColorBlack6;
 
-            instance.listColorCell0   = [UIColor whiteColor];
-            instance.listColorCell1   = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+            instance.listColorCell0     = [UIColor whiteColor];
+            instance.listColorCell1     = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1];
+
+            instance.listWebWidth       = 25;
+            instance.listWebColorCellBg = PRGB16(0XEEEEEE);
+            instance.listWebColorCell0  = PRGB16(0XE2E2E2);
+            instance.listWebColorCell1  = PRGB16(0XF2F2F2);
+            instance.listWebColorBg     = PRGB16(0XFFFFFF);
             
-            instance.rootColorKey     = PnrColorGreen;
-            instance.rootColorValue   = PnrColorRed;
+            instance.rootColorKey       = PnrColorGreen;
+            instance.rootColorValue     = PnrColorRed;
             [instance updateListCellHeight];
+            
+            instance.jsonViewColorBlack = [PnrConfig get__textColor];
+            instance.jsonViewLogDetail  = [PnrConfig get__logDetail];
         }
     });
     return instance;
@@ -180,6 +192,26 @@
     _listColorCell1Hex = [self hexStringColorNoAlpha:listColorCell1];
 }
 
+- (void)setListWebColorCellBg:(UIColor *)listWebColorCellBg {
+    _listWebColorCellBg = listWebColorCellBg;
+    _listWebColorCellBgHex = [self hexStringColorNoAlpha:listWebColorCellBg];
+}
+
+- (void)setListWebColorCell0:(UIColor *)listWebColorCell0 {
+    _listWebColorCell0 = listWebColorCell0;
+    _listWebColorCell0Hex = [self hexStringColorNoAlpha:listWebColorCell0];
+}
+
+- (void)setListWebColorCell1:(UIColor *)listWebColorCell1 {
+    _listWebColorCell1 = listWebColorCell1;
+    _listWebColorCell1Hex = [self hexStringColorNoAlpha:listWebColorCell1];
+}
+
+- (void)setListWebColorBg:(UIColor *)listWebColorBg {
+    _listWebColorBg = listWebColorBg;
+    _listWebColorBgHex = [self hexStringColorNoAlpha:listWebColorBg];
+}
+
 - (void)setRootColorKey:(UIColor *)rootColorKey {
     _rootColorKey = rootColorKey;
     _rootColorKeyHex = [self hexStringColorNoAlpha:rootColorKey];
@@ -223,5 +255,43 @@
 //        return [NSString stringWithFormat:@"#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255)];
 //    }
 //}
+
+- (void)updateTextColorBlack:(int)color {
+    [PnrConfig save__textColor:color];
+    self.jsonViewColorBlack = color;
+}
+
++ (void)save__textColor:(int)textColor {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%i", textColor] forKey:KeyTextColor];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (int)get__textColor {
+    NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:KeyTextColor];
+    if (info) {
+        return [info intValue];
+    }else{
+        return PnrListTypeTextColor;
+    }
+}
+
+- (void)updateLogDetail:(int)detail {
+    [PnrConfig save__logDetail:detail];
+    self.jsonViewLogDetail = detail;
+}
+
++ (void)save__logDetail:(int)detail {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%i", detail] forKey:KeyLog];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (int)get__logDetail {
+    NSString * info = [[NSUserDefaults standardUserDefaults] objectForKey:KeyLog];
+    if (info) {
+        return [info intValue];
+    }else{
+        return PnrListTypeLogDetail;
+    }
+}
 
 @end

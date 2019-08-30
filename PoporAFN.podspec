@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name     = 'PoporAFN'
-    s.version  = '0.0.15'
+    s.version  = '1.01'
     s.summary  = 'combine afn, support net monitor;包装了AFN方法,支持网络监测功能(通过PoporNetRecord控制).'
 
     s.homepage = 'https://github.com/popor/PoporAFN'
@@ -23,8 +23,4 @@ Pod::Spec.new do |s|
     s.source_files = 'PoporAFN/Classes/*.{h,m}'
     
     s.dependency 'AFNetworking'
-    s.dependency 'PoporFoundation/PrefixCore'
-    
-    #s.ios.dependency 'PoporNetRecord'
-
 end

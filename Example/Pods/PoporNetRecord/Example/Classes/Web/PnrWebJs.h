@@ -22,6 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)textareaAutoHeightFuntion;
 + (NSString *)textareaAuhoHeigtEventClass:(NSString *)className;
 
+// MARK: ajax 刷新增加
++ (NSString *)ajaxResubmit;
+
+// https://blog.csdn.net/wild46cat/article/details/52718545
++ (NSString *)getRootUrl;
+
++ (NSString *)updateShareUrl;
+
++ (NSString *)copyInnerText;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,7 +11,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-思路模仿自LLDebugTool,https://github.com/HDB-Li/LLDebugTool.git,但是我只不需要监测所有的网络请求,另外其他需求也不一致,所以有了本framework.
+思路模仿自LLDebugTool, https://github.com/HDB-Li/LLDebugTool.git ,但是我只需要监测所有的网络请求,另外其他需求也不一致,所以有了本framework.
 
 ```
 若想在Web页面显示 WIFI 名称，需要针对iOS12在Xcode中设置。
@@ -39,8 +39,6 @@ pod 'PoporNetRecord'
 <img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/root.png" width="30%" height="30%">
 <img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/list.png" width="30%" height="30%">
 <img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/detail.png" width="30%" height="30%">
-<img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/web.png" width="30%" height="30%">
-<img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/set.png" width="30%" height="30%">
 
 </p>
 
@@ -49,12 +47,8 @@ pod 'PoporNetRecord'
 ```
 <p>
 <img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/web1.png" width="100%" height="100%">
-
-</p>
-
-<p>
 <img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/web2.png" width="100%" height="100%">
-
+<img src="https://github.com/popor/PoporNetRecord/blob/master/Example/PoporNetRecord/image/web3.png" width="100%" height="100%">
 </p>
 
 ## Author

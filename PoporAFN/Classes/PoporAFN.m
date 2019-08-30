@@ -7,7 +7,6 @@
 //
 
 #import "PoporAFN.h"
-#import <PoporFoundation/PrefixFun.h>
 
 //如何添加head.
 //https://www.jianshu.com/p/c741236c5c30

@@ -81,33 +81,26 @@
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
-		<key>PoporFoundation-16e6ff9b.xcscheme</key>
+		<key>PoporFoundation.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
-		<key>PoporFoundation-PrefixCore-PrefixOs.xcscheme</key>
+		<key>PoporNetRecord.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>13</integer>
 		</dict>
-		<key>PoporNetRecord.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>14</integer>
-		</dict>
 		<key>PoporUI.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>14</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

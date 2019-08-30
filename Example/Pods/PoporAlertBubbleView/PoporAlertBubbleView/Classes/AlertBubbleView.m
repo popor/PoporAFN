@@ -8,10 +8,9 @@
 
 #import "AlertBubbleView.h"
 
-#import "UIView+Tool.h"
+#import "UIView+pTool.h"
 #import "AlertBubbleFrame.h"
 #import <PoporFoundation/NSAssistant.h>
-#import <PoporFoundation/PrefixColor.h>
 
 @interface AlertBubbleView () <UIGestureRecognizerDelegate>
 
@@ -62,25 +61,76 @@
     }
     
     [self showTargetView];
-    [self updateTextCVLayer];
+    [self updateCustomeTriangleLayer];
 }
 
-- (void)updateTextCVLayer {
+/*
+ 自定义customeView的中心点, 这个不显示三角符号.
+ */
+- (void)showCustomView:(UIView *)customeView close:(BlockPVoid)close {
+    {
+        [self addSubview:self.bubbleView];
+        self.customeView = customeView;
+        [self addSubview:customeView];
+        self.closeBlock = close;
+        
+        self.frame = self.baseView.bounds;
+        if (self.bgColor) {
+            self.backgroundColor = self.bgColor;
+        }
+        
+        [self.baseView addSubview:self];
+        self.closeTapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeAction:)];
+        self.closeTapGR.delegate = self;
+        
+        [self addGestureRecognizer:self.closeTapGR];
+        
+        // 矫正必要数据.
+        self.miniGap = self.borderInnerGap + self.customeViewInnerGap;
+    }
+    
+    [self showTargetView];
+    [self updateCustomeTankleLayer];
+}
+
+// 添加线条
+- (void)updateCustomeTriangleLayer {
     [AlertBubbleFrame moveCustomView:self.customeView
                           bubbleView:self.bubbleView
                             baseView:self.baseView
                           arroudRect:self.aroundRect
                      AlertBubbleView:self];
+    UIBezierPath * path;
+    path = [AlertBubbleBezierPath pathAtClipView:self.bubbleView
+                                       direction:self.direction
+                                           scale:1.0
+                                       triangleX:-(self.trangleX-self.customeViewInnerGap)
+                                       triangleY:-(self.trangleY-self.customeViewInnerGap)
+                                       triangleW:self.trangleWidth
+                                       triangleH:self.trangleHeight
+                                    cornerRadius:self.corner];
+    [self updateBorderLayer:path];
+}
+
+- (void)updateCustomeTankleLayer {
+    self.direction = AlertBubbleViewDirectionTop;
+    self.bubbleView.frame = self.customeView.frame;
     
-    UIBezierPath * path = [AlertBubbleBezierPath pathAtClipView:self.bubbleView
-                                                      direction:self.direction
-                                                          scale:1.0
-                                                      triangleX:-(self.trangleX-self.customeViewInnerGap)
-                                                      triangleY:-(self.trangleY-self.customeViewInnerGap)
-                                                      triangleW:self.trangleWidth
-                                                      triangleH:self.trangleHeight
-                                                   cornerRadius:self.corner];
-    // 绘制边界
+    UIBezierPath * path;
+    path = [AlertBubbleBezierPath pathAtClipView:self.bubbleView
+                                       direction:self.direction
+                                           scale:1.0
+                                       triangleX:0
+                                       triangleY:0
+                                       triangleW:0
+                                       triangleH:0
+                                    cornerRadius:self.corner];
+    
+    [self updateBorderLayer:path];
+}
+
+// 绘制边界
+- (void)updateBorderLayer:(UIBezierPath *)path {
     if (self.borderLayer) {
         [self.borderLayer removeFromSuperlayer];
         self.borderLayer.path = path.CGPath;
@@ -96,7 +146,7 @@
     }
 }
 
--(BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer*)gestureRecognizer shouldReceiveTouch:(UITouch*)touch {
     CGPoint point = [touch locationInView:self];
     if (CGRectContainsPoint(self.customeView.frame, point)) {
         return NO;
@@ -115,11 +165,13 @@
     [UIView removeDestroyView:self];
 }
 
+// 测试使用模块
 - (void)showTargetView {
     if (self.showAroundRect) {
         UIView * view = [UIView new];
         view.frame = self.aroundRect;
-        view.backgroundColor = RGBA(0, 0, 0, 0.4);
+        
+        view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
         [self addSubview:view];
     }
 }
