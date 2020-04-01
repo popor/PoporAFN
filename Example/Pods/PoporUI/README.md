@@ -23,7 +23,7 @@ pod 'PoporUI'
 
 兼容iOS和macOS系统
 ~~BlockView : iOS8以前的UIAlertView、UIActionSheet采用block模式~~
-IToast : 整理了IToast，import IToastKeyboard.h 使用AlertToastTitle(title)，弹出键盘弹出的时候IToast弹出高度自动上移。
+IToast : 整理了IToast，import IToastPTool.h 使用AlertToastTitle(title)，弹出键盘弹出的时候IToast弹出高度自动上移。
 ProgressView : 使用了 https://github.com/gin0606插件。
 Response : 根据UIResponder传递事件。
 Tool : 包含磁盘空间、设备使用权限、保存图片、APP版本号等信息。
@@ -52,7 +52,12 @@ UIViewController : UIViewController (AC: iPad弹出UIAlertControl sheet 模式�
 #### 0.0.46
 UINavigationController 增加静态方法 statusBarHeight
 
+#### 1.11
+UIButton+pLayoutCustom: 取消该class方法.
+至少在iOS13的虚拟机无法正确运行,所以取消这里的方法了.(不适用category, 使用单独定义的UIButton可以正常运行)
 
+#### 1.13
+更新UILabel+pFormat, UITextField+pFormat
 
 ## Author
 

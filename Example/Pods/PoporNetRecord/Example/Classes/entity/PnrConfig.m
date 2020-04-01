@@ -96,7 +96,7 @@ static NSString * KeyLog       = @"PoporNetRecord_logDetail";
 #if TARGET_IPHONE_SIMULATOR
                 _record = YES;
 #else
-                if (IsDebugVersion) {
+                if (PIsDebugVersion) {
                     _record = YES;
                 }else{
                     _record = NO;
@@ -127,7 +127,7 @@ static NSString * KeyLog       = @"PoporNetRecord_logDetail";
 #if TARGET_IPHONE_SIMULATOR
                 _showListWeb = YES;
 #else
-                if (IsDebugVersion) {
+                if (PIsDebugVersion) {
                     _showListWeb = YES;
                 }else{
                     _showListWeb = NO;

@@ -8,7 +8,7 @@
 #import "PnrDetailVCPresenter.h"
 #import "PnrDetailVCInteractor.h"
 
-#import <PoporUI/IToastKeyboard.h>
+#import <PoporUI/IToastPTool.h>
 #import <PoporFoundation/NSString+pSize.h>
 #import <PoporFoundation/NSString+pAtt.h>
 #import <PoporFoundation/Color+pPrefix.h>
@@ -154,6 +154,14 @@
         [self.view.vc presentViewController:activity animated:YES completion:nil];
     }else{
         [self.view.vc.navigationController pushViewController:activity animated:YES];
+    }
+}
+
+- (void)forwardeAction {
+    if (self.view.blockExtraRecord) {
+        self.view.blockExtraRecord(self.view.weakPnrEntity);
+        
+        AlertToastTitle(@"已转发");
     }
 }
 

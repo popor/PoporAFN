@@ -12,7 +12,7 @@
 #import <Masonry/Masonry.h>
 #import <PoporFoundation/NSDictionary+pTool.h>
 #import <PoporFoundation/Color+pPrefix.h>
-#import <PoporUI/IToastKeyboard.h>
+#import <PoporUI/IToastPTool.h>
 
 #import "PnrPortEntity.h"
 
@@ -30,6 +30,8 @@
 @synthesize cellAttArray;
 @synthesize selectRow;
 @synthesize menu;
+@synthesize blockExtraRecord;
+@synthesize weakPnrEntity;
 
 - (instancetype)initWithDic:(NSDictionary *)dic {
     if (self = [super init]) {
@@ -39,6 +41,10 @@
             self.jsonArray    = dic[@"jsonArray"];
             self.titleArray   = dic[@"titleArray"];
             self.cellAttArray = dic[@"cellAttArray"];
+            
+            
+            self.blockExtraRecord = dic[@"blockExtraRecord"];
+            self.weakPnrEntity    = dic[@"weakPnrEntity"];
         }
         self.portEntity = [PnrPortEntity share];
     }
@@ -103,8 +109,12 @@
     
     {
         UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:@"复制" style:UIBarButtonItemStylePlain target:self.present action:@selector(copyAction)];
-        
-        self.navigationItem.rightBarButtonItems = @[item1];
+        UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转发" style:UIBarButtonItemStylePlain target:self.present action:@selector(forwardeAction)];
+        if (self.blockExtraRecord) {
+            self.navigationItem.rightBarButtonItems = @[item1, item2];
+        } else {
+            self.navigationItem.rightBarButtonItems = @[item1];
+        }
     }
 }
 

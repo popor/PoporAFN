@@ -51,7 +51,12 @@
             }\n\
             \n button.w100p {\n\
             color:%@; width:100%%; font-size:16px;\
-            }\n", colorKey, @"#d7534a", colorKey];
+            }\n\
+            \n button.w49p {\n\
+            color:%@; width:49%%; font-size:16px;\
+            }\n\
+            "
+            , colorKey, @"#d7534a", colorKey, colorKey];
 }
 
 @end

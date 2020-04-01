@@ -6,6 +6,7 @@
 //  Copyright © 2018年 popor. All rights reserved.
 
 #import <Foundation/Foundation.h>
+#import "PnrPrefix.h"
 
 // 对外接口
 @protocol PnrDetailVCProtocol <NSObject>
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) NSArray * jsonArray;
 @property (nonatomic, strong) NSArray * titleArray;
 @property (nonatomic, strong) NSArray * cellAttArray;
+@property (nonatomic, copy  ) PnrBlockPPnrEntity blockExtraRecord; // 转发完成之后的回调
+@property (nonatomic, weak  ) PnrEntity * weakPnrEntity;
 
 @end
 
@@ -33,6 +36,7 @@
 @protocol PnrDetailVCEventHandler <NSObject>
 
 - (void)copyAction;
+- (void)forwardeAction;
 
 @end
 

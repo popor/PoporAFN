@@ -1,6 +1,8 @@
 use_frameworks!
 
 target 'PoporAFN_Example' do
+  platform :ios, '9.0'
+  
   pod 'PoporAFN', :path => '../'
   
   pod 'PoporNetRecord'

@@ -99,6 +99,10 @@
         if (pnr.config.freshBlock) {
             pnr.config.freshBlock();
         }
+        if (pnr.blockExtraRecord) {
+            entity.deviceName = [[UIDevice currentDevice] name];
+            pnr.blockExtraRecord(entity);
+        }
     }
 }
 
@@ -113,7 +117,8 @@
     [self addLog:log title:@"日志"];
 }
 
-+ (void)addLog:(NSString *)log title:(NSString *)title {
++ (void)addLog:(NSString *)log title:(NSString *)title
+{
     PoporNetRecord * pnr = [PoporNetRecord share];
     if (pnr.config.isRecord) {
         PnrEntity * entity = [PnrEntity new];
@@ -138,6 +143,10 @@
         // 假如在打开界面的时候收到请求,那么刷新数据
         if (pnr.config.freshBlock) {
             pnr.config.freshBlock();
+        }
+        if (pnr.blockExtraRecord) {
+            entity.deviceName = [[UIDevice currentDevice] name];
+            pnr.blockExtraRecord(entity);
         }
     }
 }

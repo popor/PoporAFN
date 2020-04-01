@@ -35,6 +35,7 @@ typedef NS_ENUM(int, PnrListType) {
     PnrListTypeLogDetail,
     PnrListTypeLogSimply,
     PnrListTypeLogNull,
+    PnrListTypeExtra,
 };
 
 NS_ASSUME_NONNULL_END

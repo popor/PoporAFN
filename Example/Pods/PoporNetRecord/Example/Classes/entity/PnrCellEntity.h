@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface PnrCellEntity : NSObject
 
 @property (nonatomic        ) PnrListType type;
-@property (nonatomic, strong) NSString * title;
+@property (nonatomic, copy  ) NSString * title;
 
 + (PnrCellEntity *)type:(PnrListType)type title:(NSString *)title;
 

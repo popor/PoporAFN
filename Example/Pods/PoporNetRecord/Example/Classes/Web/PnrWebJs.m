@@ -146,4 +146,24 @@
     }";
 }
 
++ (NSString *)clearText {
+    static NSString * js;
+    if (!js) {
+        js = [NSString stringWithFormat:@"\n\
+              function clearAction() {\n\
+              var xmlhttp = new XMLHttpRequest();\n\
+              xmlhttp.open('POST','/%@',true);\n\
+              \n\
+              \n\
+              xmlhttp.onreadystatechange=function() {\n\
+              location.reload();\n\
+              }\n\
+              \n\
+              \n\
+              xmlhttp.send('clear'); \n\
+              }\n", PnrPathClear];
+    }
+    return js;
+}
+
 @end

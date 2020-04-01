@@ -67,8 +67,18 @@
         [html appendString:[PnrWebCss cssButton]];
         [html appendString:@"\n</style>"];
 
+        // js
+        [html appendString:@"\n<script>"];
+        {
+            // 方便 浏览器查看 代码
+            [html appendFormat:@"\n %@ \n", [PnrWebJs clearText]];
+        }
+        [html appendString:@"\n\n </script>\n"];
+        
+        
         [html appendFormat:@"\n <div style=\" background-color:%@; height:100%%; width:100%%; float:left; \">", config.listWebColorCellBgHex];
-        [html appendString:@"\n <button class='w100p' type='button' onclick='location.reload();' > 刷新列表 </button>"];
+        [html appendString:@"\n <button class='w49p' type='button' onclick='clearAction();' > 清空 </button>"];
+        [html appendString:@"\n <button class='w49p' type='button' onclick='location.reload();' > 刷新 </button>"];
         
         h5_head = html;
     }
@@ -268,42 +278,42 @@
 }
 
 // 弃用了
-+ (NSString *)feedbackH5:(NSString *)body {
-    static NSString * h5_head;
-    static NSString * h5_tail;
-    if (!h5_head) {
-        NSMutableString * h5 = [NSMutableString new];
-        [h5 setString:@"<html> <head><title>update</title></head>"];
-        
-        // css
-        [h5 appendString:@"\n<style type='text/css'>"];
-        [h5 appendString:[PnrWebCss cssTextarea]];
-        [h5 appendString:[PnrWebCss cssButton]];
-        [h5 appendString:@"\n</style>"];
-        
-        // body
-        [h5 appendString:@"\n<body>"];
-        h5_head = h5;
-    }
-    if (!h5_tail) {
-        NSMutableString * h5 = [NSMutableString new];
-        [h5 appendString:@"\n<script>"];
-        
-        // js
-        [h5 appendString:@"\n window.onload=function (){\
-         parent.parent.freshList();\
-         } "];
-        [h5 appendFormat:@"\n %@ \n %@ \n", [PnrWebJs textareaAutoHeightFuntion], [PnrWebJs textareaAuhoHeigtEventClass:PnrClassTaAutoH]];
-        
-        [h5 appendString:[PnrWebJs jsJsonStatic]];
-        [h5 appendString:@"\n </script>"];
-        
-        [h5 appendString:@"\n</body></html>"];
-        
-        h5_tail = h5;
-    }
-    
-    return [NSString stringWithFormat:@"%@ %@ %@", h5_head, [PnrWebBody jsonReadForm:@"feedback" taIdName:PnrKeyConent btName:@"返回数据" taValue:body], h5_tail];
-}
+//+ (NSString *)feedbackH5:(NSString *)body {
+//    static NSString * h5_head;
+//    static NSString * h5_tail;
+//    if (!h5_head) {
+//        NSMutableString * h5 = [NSMutableString new];
+//        [h5 setString:@"<html> <head><title>update</title></head>"];
+//
+//        // css
+//        [h5 appendString:@"\n<style type='text/css'>"];
+//        [h5 appendString:[PnrWebCss cssTextarea]];
+//        [h5 appendString:[PnrWebCss cssButton]];
+//        [h5 appendString:@"\n</style>"];
+//
+//        // body
+//        [h5 appendString:@"\n<body>"];
+//        h5_head = h5;
+//    }
+//    if (!h5_tail) {
+//        NSMutableString * h5 = [NSMutableString new];
+//        [h5 appendString:@"\n<script>"];
+//
+//        // js
+//        [h5 appendString:@"\n window.onload=function (){\
+//         parent.parent.freshList();\
+//         } "];
+//        [h5 appendFormat:@"\n %@ \n %@ \n", [PnrWebJs textareaAutoHeightFuntion], [PnrWebJs textareaAuhoHeigtEventClass:PnrClassTaAutoH]];
+//
+//        [h5 appendString:[PnrWebJs jsJsonStatic]];
+//        [h5 appendString:@"\n </script>"];
+//
+//        [h5 appendString:@"\n</body></html>"];
+//
+//        h5_tail = h5;
+//    }
+//
+//    return [NSString stringWithFormat:@"%@ %@ %@", h5_head, [PnrWebBody jsonReadForm:@"feedback" taIdName:PnrKeyConent btName:@"返回数据" taValue:body], h5_tail];
+//}
 
 @end

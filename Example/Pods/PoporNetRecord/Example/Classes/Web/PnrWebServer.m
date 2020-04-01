@@ -12,7 +12,7 @@
 #import "PnrWebBody.h"
 #import "PnrConfig.h"
 
-#import <PoporUI/IToastKeyboard.h>
+#import <PoporUI/IToastPTool.h>
 
 #import <GCDWebServer/GCDWebServer.h>
 #import <GCDWebServer/GCDWebServerDataResponse.h>
@@ -24,10 +24,10 @@
 
 @property (nonatomic        ) NSInteger lastIndex;
 
-@property (nonatomic, strong) NSString * h5Root;
-@property (nonatomic, strong) NSString * h5List;
-@property (nonatomic, strong) NSString * h5Detail;
-@property (nonatomic, strong) NSString * h5Resubmit;
+@property (nonatomic, copy  ) NSString * h5Root;
+@property (nonatomic, copy  ) NSString * h5List;
+@property (nonatomic, copy  ) NSString * h5Detail;
+@property (nonatomic, copy  ) NSString * h5Resubmit;
 
 @end
 
@@ -166,6 +166,71 @@
     }
 }
 
+- (void)analysisPost1Path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
+    
+    GCDWebServerURLEncodedFormRequest * formRequest = (GCDWebServerURLEncodedFormRequest *)request;
+    NSDictionary * dic = formRequest.arguments;
+    if ([path isEqualToString:PnrPathJsonXml]) {
+        NSString * str = dic[PnrKeyConent];
+        if (str) {
+            complete([GCDWebServerDataResponse responseWithHTML:dic[PnrKeyConent]]);
+        }else{
+            complete([GCDWebServerDataResponse responseWithHTML:ErrorEmpty]);
+        }
+    }
+    else if([path isEqualToString:PnrPathResubmit]){
+        if (self.resubmitBlock) {
+            PnrBlockFeedback blockFeedback ;
+            blockFeedback = ^(NSString * feedback) {
+                if (!feedback) {
+                    feedback = @"NULL";
+                }
+                complete([GCDWebServerDataResponse responseWithHTML:feedback]);
+            };
+            GCDWebServerURLEncodedFormRequest * formRequest= (GCDWebServerURLEncodedFormRequest *)request;
+            self.resubmitBlock(formRequest.arguments, blockFeedback);
+        }else{
+            complete([GCDWebServerDataResponse responseWithHTML:ErrorResubmit]);
+        }
+    }
+    else if([path isEqualToString:PnrPathClear]){
+        [self.infoArray removeAllObjects];
+        [self clearListWeb];
+        
+        complete([GCDWebServerDataResponse responseWithHTML:@"clear finish"]);
+    }
+    else if ([path isEqualToString:@"favicon.ico"]){
+        if (self.config.webIconData) {
+            complete([GCDWebServerDataResponse responseWithData:self.config.webIconData contentType:@"image/x-icon"]);
+        }
+    }
+    
+    else{
+        complete([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
+    }
+}
+
+#pragma mark - server 某个单独请求
+- (void)startServerUnitEntity:(PnrEntity *)pnrEntity index:(NSInteger)index {
+    [PnrWebBody deatilEntity:pnrEntity index:index extra:self.resubmitExtraDic finish:^(NSString * _Nonnull detail, NSString * _Nonnull resubmit) {
+        self.h5Detail   = detail;
+        self.h5Resubmit = resubmit;
+    }];
+}
+
+- (void)stopServer {
+    [self.webServer stop];
+    self.webServer = nil;
+}
+
+- (void)clearListWeb {
+    self.lastIndex = -1;
+    self.h5List    = [PnrWebBody listH5:@""];
+}
+
+@end
+
+
 // MARK: 分析 post 多层
 //- (void)analysisPost2Index:(NSInteger)index path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
 //
@@ -200,61 +265,3 @@
 //        complete([GCDWebServerDataResponse responseWithHTML:ErrorEntity]);
 //    }
 //}
-
-- (void)analysisPost1Path:(NSString *)path request:(GCDWebServerRequest * _Nonnull)request complete:(GCDWebServerCompletionBlock  _Nonnull)complete {
-    
-    GCDWebServerURLEncodedFormRequest * formRequest = (GCDWebServerURLEncodedFormRequest *)request;
-    NSDictionary * dic = formRequest.arguments;
-    if ([path isEqualToString:PnrPathJsonXml]) {
-        NSString * str = dic[PnrKeyConent];
-        if (str) {
-            complete([GCDWebServerDataResponse responseWithHTML:dic[PnrKeyConent]]);
-        }else{
-            complete([GCDWebServerDataResponse responseWithHTML:ErrorEmpty]);
-        }
-    }
-    else if([path isEqualToString:PnrPathResubmit]){
-        if (self.resubmitBlock) {
-            PnrBlockFeedback blockFeedback ;
-            blockFeedback = ^(NSString * feedback) {
-                if (!feedback) {
-                    feedback = @"NULL";
-                }
-                complete([GCDWebServerDataResponse responseWithHTML:feedback]);
-            };
-            GCDWebServerURLEncodedFormRequest * formRequest= (GCDWebServerURLEncodedFormRequest *)request;
-            self.resubmitBlock(formRequest.arguments, blockFeedback);
-        }else{
-            complete([GCDWebServerDataResponse responseWithHTML:ErrorResubmit]);
-        }
-    }
-    else if ([path isEqualToString:@"favicon.ico"]){
-        if (self.config.webIconData) {
-            complete([GCDWebServerDataResponse responseWithData:self.config.webIconData contentType:@"image/x-icon"]);
-        }
-    }
-    
-    else{
-        complete([GCDWebServerDataResponse responseWithHTML:ErrorUrl]);
-    }
-}
-
-#pragma mark - server 某个单独请求
-- (void)startServerUnitEntity:(PnrEntity *)pnrEntity index:(NSInteger)index {
-    [PnrWebBody deatilEntity:pnrEntity index:index extra:self.resubmitExtraDic finish:^(NSString * _Nonnull detail, NSString * _Nonnull resubmit) {
-        self.h5Detail   = detail;
-        self.h5Resubmit = resubmit;
-    }];
-}
-
-- (void)stopServer {
-    [self.webServer stop];
-    self.webServer = nil;
-}
-
-- (void)clearListWeb {
-    self.lastIndex = -1;
-    self.h5List    = [PnrWebBody listH5:@""];
-}
-
-@end

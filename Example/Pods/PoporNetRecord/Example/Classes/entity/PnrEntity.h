@@ -25,18 +25,24 @@ static NSString * PnrRootShare9     = @"分享:";
 static NSString * PnrRootLog10      = @"日志:";
 
 static int PnrListHeight            = 50;
+
+// 新窗口
 static NSString * PnrIframeList     = @"IframeList";
 static NSString * PnrIframeDetail   = @"IframeDetail";
 
+// 表单
 static NSString * PnrFormResubmit   = @"formResubmit";
 static NSString * PnrFormFeedback   = @"formFeedback";
 
+// 分享url
 static NSString * PnrIdShare        = @"idShare";
 
+// 路径
 static NSString * PnrPathList      = @"list";
 static NSString * PnrPathDetail    = @"detail";
 static NSString * PnrPathEdit      = @"edit";
 static NSString * PnrPathResubmit  = @"resubmit";
+static NSString * PnrPathClear     = @"clear";
 
 static NSString * PnrKeyConent     = @"content";
 // post 查看json等
@@ -52,25 +58,26 @@ static NSString * PnrClassTaAutoH  = @"TaAutoH";
 @interface PnrEntity : NSObject
 
 // 日志模式
-@property (nonatomic, strong) NSString * log; // 如果此参数不为空,那么就是log模式
+@property (nonatomic, copy  ) NSString * log; // 如果此参数不为空,那么就是log模式
 @property (nonatomic        ) int      logDetailH;// 详细模式下log cell 高度.
 
 // 网路请求模式
-@property (nonatomic, strong) NSString * title;
-@property (nonatomic, strong) NSString * url;
-@property (nonatomic, strong) NSString * domain;
-@property (nonatomic, strong) NSString * path;
-@property (nonatomic, strong) NSString * method;// post get
+@property (nonatomic, copy  ) NSString * title;
+@property (nonatomic, copy  ) NSString * url;
+@property (nonatomic, copy  ) NSString * domain;
+@property (nonatomic, copy  ) NSString * path;
+@property (nonatomic, copy  ) NSString * method;// post get
 
 @property (nonatomic, strong) id       headValue;
 @property (nonatomic, strong) id       parameterValue;
 @property (nonatomic, strong) id       responseValue;
 
-@property (nonatomic, strong) NSString * time;
+@property (nonatomic, copy  ) NSString * time;
 
-@property (nonatomic, strong) NSString * listWebH5; // 列表网页html5代码
+@property (nonatomic, copy  ) NSString * listWebH5; // 列表网页html5代码
 
 //@property (nonatomic        ) float cellH;
+@property (nonatomic, copy  ) NSString * deviceName;
 
 - (void)createListWebH5:(NSInteger)index;
 
@@ -78,6 +85,8 @@ static NSString * PnrClassTaAutoH  = @"TaAutoH";
 - (NSArray *)jsonArray;
 
 - (void)getJsonArrayBlock:(PnrEntityBlock)finish;
+
+- (NSDictionary *)desDic;
 
 @end
 

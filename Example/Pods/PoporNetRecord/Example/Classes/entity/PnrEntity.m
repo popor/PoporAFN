@@ -128,4 +128,26 @@
     finish(titleArray, jsonArray, cellAttArray);
 }
 
+- (NSDictionary *)desDic {
+    NSMutableDictionary * dic = [NSMutableDictionary new];
+    
+    [dic setValue:self.log            forKey:@"log"];
+    
+    [dic setValue:self.title          forKey:@"title"];
+    [dic setValue:self.url            forKey:@"url"];
+    [dic setValue:self.domain         forKey:@"domain"];
+    [dic setValue:self.path           forKey:@"path"];
+    [dic setValue:self.method         forKey:@"method"];
+
+    [dic setValue:self.headValue      forKey:@"headValue"];
+    [dic setValue:self.parameterValue forKey:@"parameterValue"];
+    [dic setValue:self.responseValue  forKey:@"responseValue"];
+    
+    [dic setValue:self.time           forKey:@"time"];
+    
+    [dic setValue:self.deviceName     forKey:@"deviceName"];
+    
+    return dic;
+}
+
 @end

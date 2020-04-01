@@ -40,10 +40,10 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, strong) UIColor * listColorDomain;// 域名
 @property (nonatomic, strong) UIColor * listColorTime;// 时间
 // ▽
-@property (nonatomic, strong) NSString * listColorTitleHex;
-@property (nonatomic, strong) NSString * listColorRequestHex;
-@property (nonatomic, strong) NSString * listColorDomainHex;
-@property (nonatomic, strong) NSString * listColorTimeHex;
+@property (nonatomic, copy  ) NSString * listColorTitleHex;
+@property (nonatomic, copy  ) NSString * listColorRequestHex;
+@property (nonatomic, copy  ) NSString * listColorDomainHex;
+@property (nonatomic, copy  ) NSString * listColorTimeHex;
 
 // -----
 @property (nonatomic, strong) UIColor * listColorCell0;// 列表偶数行背景色
@@ -55,21 +55,21 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, strong) UIColor * listWebColorCell1;// web列表奇数行背景色
 @property (nonatomic, strong) UIColor * listWebColorBg;// web查看页面颜色
 // ▽
-@property (nonatomic, strong) NSString * listColorCell0Hex;
-@property (nonatomic, strong) NSString * listColorCell1Hex;
+@property (nonatomic, copy  ) NSString * listColorCell0Hex;
+@property (nonatomic, copy  ) NSString * listColorCell1Hex;
 
-@property (nonatomic, strong) NSString * listWebColorCellBgHex;
-@property (nonatomic, strong) NSString * listWebColorCell0Hex;
-@property (nonatomic, strong) NSString * listWebColorCell1Hex;
-@property (nonatomic, strong) NSString * listWebColorBgHex;
+@property (nonatomic, copy  ) NSString * listWebColorCellBgHex;
+@property (nonatomic, copy  ) NSString * listWebColorCell0Hex;
+@property (nonatomic, copy  ) NSString * listWebColorCell1Hex;
+@property (nonatomic, copy  ) NSString * listWebColorBgHex;
 
 
 // -----
 @property (nonatomic, strong) UIColor * rootColorKey;
 @property (nonatomic, strong) UIColor * rootColorValue;
 // ▽
-@property (nonatomic, strong) NSString * rootColorKeyHex;
-@property (nonatomic, strong) NSString * rootColorValueHex;
+@property (nonatomic, copy  ) NSString * rootColorKeyHex;
+@property (nonatomic, copy  ) NSString * rootColorValueHex;
 
 //------------------------------------------------------------------------------
 #pragma mark - 请求详情配置
@@ -81,8 +81,8 @@ typedef void(^PoporNetRecordRecordTypeBlock) (PoporNetRecordType type);
 @property (nonatomic, strong) NSDictionary * nonStringAttributes;// value int颜色
 //------------------------------------------------------------------------------
 
-@property (nonatomic, strong) NSString * vcRootTitle;// VC标题
-@property (nonatomic, strong) NSString * webRootTitle;// 网页标题
+@property (nonatomic, copy  ) NSString * vcRootTitle;// VC标题
+@property (nonatomic, copy  ) NSString * webRootTitle;// 网页标题
 @property (nonatomic, strong) NSData   * webIconData;
 
 //------------------------------------------------------------------------------

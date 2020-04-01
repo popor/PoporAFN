@@ -10,6 +10,7 @@
 #import "PnrCellEntity.h"
 #import <PoporFoundation/Block+pPrefix.h>
 #import <PoporAlertBubbleView/AlertBubbleView.h>
+#import "PnrPrefix.h"
 
 // 对外接口
 @protocol PnrListVCProtocol <NSObject>
@@ -27,6 +28,7 @@
 @property (nonatomic, strong) NSArray         * rightBarArray;
 // inject : 外部注入的
 @property (nonatomic, weak  ) NSMutableArray<PnrEntity *> * weakInfoArray;
+@property (nonatomic, copy  ) PnrBlockPPnrEntity blockExtraRecord; // 转发完成之后的回调
 
 @end
 

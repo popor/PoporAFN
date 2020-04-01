@@ -12,6 +12,8 @@
 #import "PnrConfig.h"
 
 #import "PnrDetailVC.h"
+#import "PnrExtraVC.h"
+#import "PnrMessageVC.h"
 #import "PnrListVCCell.h"
 #import <PoporFoundation/NSString+pAtt.h>
 #import <PoporUI/UIDevice+pTool.h>
@@ -191,7 +193,8 @@
         cell.textLabel.text = cellEntity.title;
         
         switch (cellEntity.type) {
-            case PnrListTypeClear:{
+            case PnrListTypeClear:
+            case PnrListTypeExtra:{
                 break;
             }
             case PnrListTypeTextColor:
@@ -234,11 +237,13 @@
         [entity getJsonArrayBlock:^(NSArray *titleArray, NSArray *jsonArray, NSMutableArray *cellAttArray) {
             
             NSDictionary * vcDic = @{
-                                     @"title":@"请求详情",
-                                     @"jsonArray":jsonArray,
-                                     @"titleArray":titleArray,
-                                     @"cellAttArray":cellAttArray,
-                                     };
+                @"title":@"请求详情",
+                @"jsonArray":jsonArray,
+                @"titleArray":titleArray,
+                @"cellAttArray":cellAttArray,
+                @"blockExtraRecord":self.view.blockExtraRecord,
+                @"weakPnrEntity":entity,
+            };
             [weakSelf.view.vc.navigationController pushViewController:[[PnrDetailVC alloc] initWithDic:vcDic] animated:YES];
         }];
        
@@ -262,6 +267,10 @@
             case PnrListTypeLogNull:{
                 [self.config updateLogDetail:cellEntity.type];
                 //[self.view.infoTV reloadData];
+                break;
+            }
+            case PnrListTypeExtra:{
+                [self.view.vc.navigationController pushViewController:[PnrExtraVC new] animated:YES];
                 break;
             }
             default:
@@ -331,8 +340,12 @@
 
 - (void)setRightBarAction {
     UIBarButtonItem *item1 = [[UIBarButtonItem alloc] initWithTitle:PoporNetRecordSet style:UIBarButtonItemStylePlain target:self action:@selector(settingAction:event:)];
-    //UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(clearAction)];
-    self.view.vc.navigationItem.rightBarButtonItems = @[item1];
+    UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithTitle:@"转发" style:UIBarButtonItemStylePlain target:self action:@selector(forwardeTextAction)];
+    if (self.view.blockExtraRecord) {
+        self.view.vc.navigationItem.rightBarButtonItems = @[item1, item2];
+    } else {
+        self.view.vc.navigationItem.rightBarButtonItems = @[item1];
+    }
 }
 
 - (void)updateServerBT {
@@ -403,6 +416,13 @@
         
         [self.view.vc presentViewController:oneAC animated:YES completion:nil];
     }
+}
+
+- (void)forwardeTextAction {
+    PnrMessageVC * vc   = [PnrMessageVC new];
+    vc.blockExtraRecord = self.view.blockExtraRecord;
+    
+    [self.view.vc.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Interactor_EventHandler

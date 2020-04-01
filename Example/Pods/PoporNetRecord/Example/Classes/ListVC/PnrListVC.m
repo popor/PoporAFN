@@ -11,6 +11,7 @@
 
 #import "PnrConfig.h"
 #import <Masonry/Masonry.h>
+#import "PnrUITool.h"
 
 @interface PnrListVC ()
 
@@ -29,6 +30,7 @@
 @synthesize alertBubbleTVColor;
 
 @synthesize rightBarArray;
+@synthesize blockExtraRecord;
 
 - (instancetype)initWithDic:(NSDictionary *)dic {
     if (self = [super init]) {
@@ -43,11 +45,14 @@
               [PnrCellEntity type:PnrListTypeTextNull 	title:@"Net:无"],
               [PnrCellEntity type:PnrListTypeLogDetail	title:@"Log:详细"],
               [PnrCellEntity type:PnrListTypeLogSimply  title:@"Log:简化"],
-              [PnrCellEntity type:PnrListTypeLogNull 	title:@"Log:无"]
+              [PnrCellEntity type:PnrListTypeLogNull 	title:@"Log:无"],
+              [PnrCellEntity type:PnrListTypeExtra      title:@"额外设置"],
+              
               ];
             
-            self.weakInfoArray = dic[@"weakInfoArray"];
-            self.closeBlock    = dic[@"closeBlock"];
+            self.weakInfoArray    = dic[@"weakInfoArray"];
+            self.closeBlock       = dic[@"closeBlock"];
+            self.blockExtraRecord = dic[@"blockExtraRecord"];
         }
     }
     return self;
@@ -180,7 +185,6 @@
 - (void)addServerBT {
     self.serverBT = ({
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, 0, 40);
         [button setBackgroundColor:[UIColor whiteColor]];
         button.titleLabel.font = [UIFont systemFontOfSize:15];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -195,10 +199,10 @@
     
     [self.serverBT mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
-        make.top.mas_equalTo(0);
+        make.top.mas_equalTo([PnrUITool fetchTopMargin:self.navigationController]);
         
         make.right.mas_equalTo(0);
-        make.height.mas_equalTo(self.serverBT.frame.size.height);
+        make.height.mas_equalTo(40);
     }];
     
     {

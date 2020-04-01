@@ -11,6 +11,7 @@
 #import "PnrConfig.h"
 #import "PnrView.h"
 #import "PnrEntity.h"
+#import "PnrExtraEntity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray * infoArray;
 @property (nonatomic, weak  ) UINavigationController * nc;
+
+@property (nonatomic, copy  ) PnrBlockPPnrEntity blockExtraRecord; // 转发完成之后的回调
 
 + (instancetype)share;
 

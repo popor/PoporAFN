@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy  ) PnrBlockPVoid openBlock;
 @property (nonatomic, copy  ) PnrBlockPVoid closeBlock;
 
+// 默认为YES, 防止ballBT位于在屏幕上方出现, iPhoneX机型可能无法点击到ballBT.
+@property (nonatomic        ) BOOL autoFixIphoneXFrame;
+
+@property (nonatomic, copy  ) PnrBlockPVoid viewDidloadBlock; // 方便设定ballBT属性
+
 + (instancetype)share;
 
 - (void)addViews;

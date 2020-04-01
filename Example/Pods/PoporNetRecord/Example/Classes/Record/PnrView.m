@@ -9,9 +9,11 @@
 #import "PnrView.h"
 #import "PnrEntity.h"
 #import "PnrWebServer.h"
+#import "PoporNetRecord.h"
 
 #import "PnrListVC.h"
 #import <PoporUI/UIView+pExtension.h>
+#import <PoporUI/UIDevice+pScreenSize.h>
 #import <PoporFoundation/Fun+pPrefix.h>
 #import <PoporFoundation/NSDate+pTool.h>
 #import <JSONSyntaxHighlight/JSONSyntaxHighlight.h>
@@ -20,6 +22,10 @@
 #define LL_SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 
 @interface PnrView () <UIGestureRecognizerDelegate>
+
+@property (nonatomic, getter=isIphoneX) BOOL iphoneX;
+@property (nonatomic        ) int screenWidth;
+@property (nonatomic        ) int screenHeight;
 
 @end
 
@@ -30,15 +36,21 @@
     static PnrView * instance;
     dispatch_once(&once, ^{
         instance = [self new];
+        
     });
     return instance;
 }
 
 - (id)init {
     if (self = [super init]) {
-        self.sBallHideWidth = 10;
-        self.sBallWidth     = 80;
-        self.config = [PnrConfig share];
+        _sBallHideWidth      = 10;
+        _sBallWidth          = 80;
+        _iphoneX             = [UIDevice isIphoneXScreen];
+        _autoFixIphoneXFrame = YES;
+        _config              = [PnrConfig share];
+        _screenWidth         = LL_SCREEN_WIDTH;
+        _screenHeight        = LL_SCREEN_HEIGHT;
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self addViews];
         });
@@ -71,6 +83,11 @@
             
             button;
         });
+        
+        if (self.viewDidloadBlock) {
+            self.viewDidloadBlock();
+        }
+        
         NSString * pointString = [self getBallPoint];
         if (pointString) {
             self.ballBT.center = CGPointFromString(pointString);
@@ -137,7 +154,8 @@
             weakSelf.closeBlock();
         }
     };
-    UIViewController * vc = [[PnrListVC alloc] initWithDic:@{@"title":self.config.vcRootTitle, @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock}];
+    PoporNetRecord * pnr  = [PoporNetRecord share];
+    UIViewController * vc = [[PnrListVC alloc] initWithDic:@{@"title":self.config.vcRootTitle, @"weakInfoArray":self.infoArray, @"closeBlock":closeBlock, @"blockExtraRecord":pnr.blockExtraRecord}];
     
     return vc;
 }
@@ -177,46 +195,66 @@
 
 - (void)resignActive {
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:2.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.ballBT.alpha = self.config.normalAlpha;
-        // Calculate End Point
-        CGFloat x = self.ballBT.center.x;
-        CGFloat y = self.ballBT.center.y;
-        CGFloat x1 = LL_SCREEN_WIDTH / 2.0;
-        CGFloat y1 = LL_SCREEN_HEIGHT / 2.0;
-        
-        CGFloat distanceX = x1 > x ? x : LL_SCREEN_WIDTH - x;
-        CGFloat distanceY = y1 > y ? y : LL_SCREEN_HEIGHT - y;
-        CGPoint endPoint = CGPointZero;
-        
-        if (distanceX <= distanceY) {
-            // animation to left or right
-            endPoint.y = y;
-            if (x1 < x) {
-                // to right
-                endPoint.x = LL_SCREEN_WIDTH - self.ballBT.frame.size.width / 2.0 + self.sBallHideWidth;
-            } else {
-                // to left
-                endPoint.x = self.ballBT.frame.size.width / 2.0 - self.sBallHideWidth;
-            }
-        } else {
-            // animation to top or bottom
-            endPoint.x = x;
-            if (y1 < y) {
-                // to bottom
-                endPoint.y = LL_SCREEN_HEIGHT - self.ballBT.frame.size.height / 2.0 + self.sBallHideWidth;
-            } else {
-                // to top
-                endPoint.y = self.ballBT.frame.size.height / 2.0 - self.sBallHideWidth;
-            }
-        }
-        self.ballBT.center = endPoint;
-        
-        [self saveBallPoint:NSStringFromCGPoint(endPoint)];
-    } completion:nil];
+        self.ballBT.alpha  = self.config.normalAlpha;
+        self.ballBT.center = [self fixIphoneXCenter];
+    } completion:^(BOOL finished) {
+        [self saveBallPoint:NSStringFromCGPoint(self.ballBT.center)];
+        //NSLog(@"__frame:%@ center:%@", NSStringFromCGRect(self.ballBT.frame), NSStringFromCGPoint(self.ballBT.center));
+    }];
 }
 
 - (void)changeSBallViewFrameWithPoint:(CGPoint)point {
     self.ballBT.center = CGPointMake(point.x, point.y);
+}
+
+// 获取到对应的center
+- (CGPoint)fixIphoneXCenter {
+    
+    CGFloat x         = self.ballBT.center.x;
+    CGFloat y         = self.ballBT.center.y;
+    CGFloat x1        = self.screenWidth / 2.0;
+    CGFloat y1        = self.screenHeight / 2.0;
+    CGFloat Width     = self.ballBT.frame.size.width;
+    CGFloat Height    = self.ballBT.frame.size.height;
+    
+    if (self.isIphoneX && self.autoFixIphoneXFrame) {
+        if (y < 60) {
+            y = 60;
+            if (x <= x1) {
+                x = Width / 2.0 - self.sBallHideWidth;
+            } else {
+                x = self.screenWidth - Width / 2.0 + self.sBallHideWidth;;
+            }
+        }
+    }
+    
+    CGFloat distanceX = x1 > x ? x : self.screenWidth - x;
+    CGFloat distanceY = y1 > y ? y : self.screenHeight - y;
+    CGPoint endPoint  = CGPointZero;
+    
+    if (distanceX <= distanceY) {
+        // animation to left or right
+        endPoint.y = y;
+        if (x1 < x) {
+            // to right
+            endPoint.x = self.screenWidth - Width / 2.0 + self.sBallHideWidth;
+        } else {
+            // to left
+            endPoint.x = Width / 2.0 - self.sBallHideWidth;
+        }
+    } else {
+        // animation to top or bottom
+        endPoint.x = x;
+        if (y1 < y) {
+            // to bottom
+            endPoint.y = self.screenHeight - Height / 2.0 + self.sBallHideWidth;
+        } else {
+            // to top
+            endPoint.y = Height / 2.0 - self.sBallHideWidth;
+        }
+    }
+  
+    return endPoint;
 }
 
 #pragma mark - 记录按钮位置
