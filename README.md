@@ -71,6 +71,10 @@ config.recordBlock = ^(NSString *url, NSString *title, NSString *method, id head
 
 ```
 
+1.03: 注释了过期代码
+修改之前仓促的修改, 允许单独设置header或者使用默认的manger.header.
+
+
 ## Author
 
 wangkq, 908891024@qq.com
