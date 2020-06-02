@@ -25,26 +25,19 @@ typedef NS_ENUM(int, PoporMethod) {
 @interface PoporAFN : NSObject
 
 #pragma mark - NEW
-- (void)url:(NSString *_Nullable)urlString
-     method:(PoporMethod)method
- parameters:(NSDictionary *_Nullable)parameters
-    success:(PoporAFNFinishBlock _Nullable)success
-    failure:(PoporAFNFailureBlock _Nullable)failure;
-
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;
 
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
-       header:(NSDictionary *_Nullable)header
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
+       header:(NSDictionary *_Nullable)header
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;
 

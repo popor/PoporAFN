@@ -14,32 +14,22 @@
 @implementation PoporAFN
 
 #pragma mark - NEW
-- (void)url:(NSString *_Nullable)urlString
-     method:(PoporMethod)method
- parameters:(NSDictionary *_Nullable)parameters
-    success:(PoporAFNFinishBlock _Nullable)success
-    failure:(PoporAFNFailureBlock _Nullable)failure
-{
-    [self title:nil url:urlString method:method parameters:parameters afnManager:nil success:success failure:failure];
-}
-
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
       success:(PoporAFNFinishBlock _Nullable)success
-      failure:(PoporAFNFailureBlock _Nullable)failure {
-    
-    [self title:nil url:urlString method:method header:nil parameters:parameters afnManager:nil success:success failure:failure];
+      failure:(PoporAFNFailureBlock _Nullable)failure
+{
+    [self title:nil url:urlString method:method parameters:parameters afnManager:nil header:nil success:success failure:failure];
 }
 
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
-       header:(NSDictionary *_Nullable)header
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
+       header:(NSDictionary *_Nullable)header
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure {
     

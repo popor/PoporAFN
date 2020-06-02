@@ -53,17 +53,16 @@
     // [PoporNetRecord addUrl:@"http://www.baidu.com/testText1" title:@"网络假接口" method:@"POST" head:@"head" parameter:nil response:@"response"];
     
     // 老接口
-    [PoporAFNTool getUrl:@"http://192.168.2.174:8081/" title:@"本地假接口" parameters:nil afnManager:nil success:^(NSString * _Nonnull url, NSData * _Nonnull data, NSDictionary * _Nonnull dic) {
-        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"str: %@", str);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
+    //    [PoporAFNTool getUrl:@"http://192.168.2.174:8081/" title:@"本地假接口" parameters:nil afnManager:nil success:^(NSString * _Nonnull url, NSData * _Nonnull data, NSDictionary * _Nonnull dic) {
+    //        NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    //        NSLog(@"str: %@", str);
+    //
+    //    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    //
+    //    }];
     
     // 新接口
-    [PoporAFNTool title:@"测试" url:@"https://www.baidu.com" method:PoporMethodGet parameters:nil afnManager:nil success:nil failure:nil];
-    
+    [PoporAFNTool title:@"测试" url:@"https://www.baidu.com" method:PoporMethodGet parameters:nil afnManager:nil header:nil success:nil failure:nil];
     //[self downloadAction];
 }
 
@@ -81,8 +80,8 @@
     manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     manager.requestSerializer.timeoutInterval = 10.0f;
-    
-    [PoporAFNTool getUrl:@"https://api.androidhive.info/volley/person_object.json" title:@"测试json" parameters:@{@"test":@"test1"} afnManager:manager success:nil failure:nil];
+        
+    [PoporAFNTool title:@"测试json" url:@"https://api.androidhive.info/volley/person_object.json" method:PoporMethodPost parameters:@{@"test":@"test1"} afnManager:nil header:nil success:nil failure:nil];
 }
 
 - (void)downloadAction {
