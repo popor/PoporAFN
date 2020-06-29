@@ -12,14 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^PoporAFNFinishBlock)(NSString *url, NSData *data, NSDictionary *dic);
-typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error);
-
-typedef NS_ENUM(int, PoporMethod) {
-    PoporMethodGet  = 1,
-    PoporMethodPost = 2,
-};
-
 #define PoporAFNTool [PoporAFN new]
 
 @interface PoporAFN : NSObject
@@ -38,6 +30,16 @@ typedef NS_ENUM(int, PoporMethod) {
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
+      success:(PoporAFNFinishBlock _Nullable)success
+      failure:(PoporAFNFailureBlock _Nullable)failure;
+
+- (void)title:(NSString *_Nullable)title
+          url:(NSString *_Nullable)urlString
+       method:(PoporMethod)method
+   parameters:(NSDictionary *_Nullable)parameters
+   afnManager:(AFHTTPSessionManager *_Nullable)manager
+       header:(NSDictionary *_Nullable)header
+     progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;
 

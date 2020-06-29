@@ -23,7 +23,7 @@ PODS:
     - GCDWebServer/Core
   - JSONSyntaxHighlight (1.0.0)
   - Masonry (1.1.0)
-  - PoporAFN (1.03):
+  - PoporAFN (1.04):
     - AFNetworking
   - PoporAlertBubbleView (1.01):
     - PoporFoundation/NSAssistant
@@ -215,7 +215,7 @@ SPEC CHECKSUMS:
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
   JSONSyntaxHighlight: 8685d8ad0259b909dc97a829fdfbefbec363f449
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PoporAFN: 7f09829672798752b395a674a579756bc8da10ad
+  PoporAFN: 39ebcb2b82579e3747db162b2c6826ee2c768b15
   PoporAlertBubbleView: f1b48e79767045630efd422eacefa24c0ce249c1
   PoporFoundation: cfe9fedd0972ce3f6f849536bf6dec7bde7d688d
   PoporNetRecord: 8d7c0deac94e5290e4943af036113a6de27b638d
