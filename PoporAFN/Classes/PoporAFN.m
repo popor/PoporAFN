@@ -21,27 +21,24 @@
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure
 {
-    [self title:nil url:urlString method:method parameters:parameters afnManager:nil header:nil success:success failure:failure];
+    [self title:title url:urlString method:method parameters:parameters afnManager:nil header:nil postData:nil progress:nil success:success failure:failure];
 }
 
+/**
+ 
+ 1.假如需要postdata
+ postDataBlock = ^(id<AFMultipartFormData>  _Nonnull formData) {
+ [formData appendPartWithFileData:imageData name:@"file" fileName:@"1.jpg" mimeType:@"image/jpg"]; // 可以传递图片和视频等
+ }
+ 
+ */
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
-      success:(PoporAFNFinishBlock _Nullable)success
-      failure:(PoporAFNFailureBlock _Nullable)failure
-{
-    [self title:title url:urlString method:method parameters:parameters afnManager:manager header:header progress:nil success:success failure:failure];
-}
-
-- (void)title:(NSString *_Nullable)title
-          url:(NSString *_Nullable)urlString
-       method:(PoporMethod)method
-   parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
-       header:(NSDictionary *_Nullable)header
+     postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock // 假如post data, 需要完善这个接口, method使用PoporMethodPost
      progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure
@@ -51,12 +48,12 @@
     }
     
     if (!header) {
-        header = manager.requestSerializer.HTTPRequestHeaders;
+        header = [PoporAFNConfig createHeader];
     }
     __weak typeof(manager) weakManager = manager;
     switch(method) {
         case PoporMethodGet : {
-            [manager GET:urlString parameters:parameters headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [manager GET:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
@@ -64,43 +61,53 @@
             break;
         }
         case PoporMethodPost : {
-            [manager POST:urlString parameters:parameters headers:header progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [manager POST:urlString parameters:parameters headers:header constructingBodyWithBlock:postDataBlock progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
             }];
+            
             break;
         }
         case PoporMethodFormData: {
-            NSMutableURLRequest * request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:urlString parameters:parameters error:nil];
-            for (NSString * key in header.keyEnumerator) {
-                [request addValue:header[key] forHTTPHeaderField:key];
-            }
-            
-            __weak NSURLSessionUploadTask * uploadTask;
-            uploadTask = [manager uploadTaskWithStreamedRequest:request progress:uploadProgress completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                // if (error) {
-                //     NSLog(@"Error: %@", error);
-                // } else {
-                //     NSLog(@"response:%@, responseObject:%@", response, responseObject);
-                //     NSString * message = responseObject[@"message"];
-                //     //NSString * str  = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-                //     NSLog(@"message: %@", message);
-                // }
-                if (!error) {
-                    [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:uploadTask response:responseObject success:success];
-                } else {
-                    [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:uploadTask error:error failure:failure];
-                }
+           
+            [manager POST:urlString parameters:parameters headers:header constructingBodyWithBlock:postDataBlock progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
             }];
             
-            [uploadTask resume];
+            // // 另一种方法: 抓包发现 这个方法的参数比较简洁
+            // NSMutableURLRequest * request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:urlString parameters:parameters error:nil];
+            // for (NSString * key in header.keyEnumerator) {
+            //     [request addValue:header[key] forHTTPHeaderField:key];
+            // }
+            //
+            // __block NSURLSessionUploadTask * uploadTask;
+            // uploadTask = [manager uploadTaskWithStreamedRequest:request progress:uploadProgress completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+            //     // if (error) {
+            //     //     NSLog(@"Error: %@", error);
+            //     // } else {
+            //     //     NSLog(@"response:%@, responseObject:%@", response, responseObject);
+            //     //     NSString * message = responseObject[@"message"];
+            //     //     //NSString * str  = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            //     //     NSLog(@"message: %@", message);
+            //     // }
+            //     if (!error) {
+            //         [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:uploadTask response:responseObject success:success];
+            //     } else {
+            //         [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:uploadTask error:error failure:failure];
+            //     }
+            // }];
+            //
+            // [uploadTask resume];
             
             break;
         }
     }
-    
 }
+
+
 
 + (void)successManager:(AFHTTPSessionManager *)manager url:(NSString *)urlString title:(NSString *_Nullable)title method:(PoporMethod)method parameters:(NSDictionary * _Nullable)parameters task:(NSURLSessionDataTask * _Nullable)task response:(id _Nullable) responseObject success:(PoporAFNFinishBlock _Nullable )success
 {

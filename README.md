@@ -78,6 +78,8 @@ config.recordBlock = ^(NSString *url, NSString *title, NSString *method, id head
 1.04: 增加了form-data请求类型 和 progress 接口.
 鉴于种类太多,  修改了PoporAfnRecordBlock的method的定义
 
+1.06: manager和header分开设置, 更新请求方式, 增加了post data的功能.
+
 ## Author
 
 wangkq, 908891024@qq.com

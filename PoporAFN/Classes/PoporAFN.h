@@ -24,21 +24,21 @@ NS_ASSUME_NONNULL_BEGIN
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;
 
+/**
+ 
+ 1.假如需要postdata
+ postDataBlock = ^(id<AFMultipartFormData>  _Nonnull formData) {
+ [formData appendPartWithFileData:imageData name:@"file" fileName:@"1.jpg" mimeType:@"image/jpg"]; // 可以传递图片和视频等
+ }
+ 
+ */
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
-      success:(PoporAFNFinishBlock _Nullable)success
-      failure:(PoporAFNFailureBlock _Nullable)failure;
-
-- (void)title:(NSString *_Nullable)title
-          url:(NSString *_Nullable)urlString
-       method:(PoporMethod)method
-   parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
-       header:(NSDictionary *_Nullable)header
+     postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock // 假如post data, 需要完善这个接口, method使用PoporMethodPost
      progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;
