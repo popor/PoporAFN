@@ -24,37 +24,11 @@
     [self title:title url:urlString method:method parameters:parameters afnManager:nil header:nil postData:nil progress:nil success:success failure:failure];
 }
 
-/**
- 
- 1.假如需要postdata method 必须为 PoporMethodFormData.
- postDataBlock = ^(id<AFMultipartFormData>  _Nonnull formData) {
- [formData appendPartWithFileData:imageData name:@"file" fileName:@"1.jpg" mimeType:@"image/jpg"]; // 可以传递图片和视频等
- }
- 
- 2. post的manager为
- FHTTPSessionManager *manager = [AFHTTPSessionManager manager];
- manager.requestSerializer =  [AFJSONRequestSerializer serializer];
- manager.responseSerializer = [AFHTTPResponseSerializer serializer];
- manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]; // 不然不支持www.baidu.com.
- manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
- manager.requestSerializer.timeoutInterval = 10.0f;
- 
- formData的manager为
- AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
- // request
- manager.requestSerializer  = [AFHTTPRequestSerializer serializer];
- // response
- manager.responseSerializer = [AFJSONResponseSerializer serializer];
- manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/html", @"text/plain",  @"image/jpeg", @"image/png", @"application/octet-stream", @"multipart/form-data", nil];
- manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
- manager.requestSerializer.timeoutInterval = 10.0f;
- 
- */
 - (void)title:(NSString *_Nullable)title
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
+   afnManager:(AFURLSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
      postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock
      progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
@@ -71,7 +45,7 @@
     __weak typeof(manager) weakManager = manager;
     switch(method) {
         case PoporMethodGet : {
-            [manager GET:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [(AFHTTPSessionManager *)manager GET:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
@@ -79,7 +53,7 @@
             break;
         }
         case PoporMethodPost : {
-            [manager POST:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [(AFHTTPSessionManager *)manager POST:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
@@ -88,7 +62,7 @@
         }
         case PoporMethodFormData: {
            
-            [manager POST:urlString parameters:parameters headers:header constructingBodyWithBlock:postDataBlock progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [(AFHTTPSessionManager *)manager POST:urlString parameters:parameters headers:header constructingBodyWithBlock:postDataBlock progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];

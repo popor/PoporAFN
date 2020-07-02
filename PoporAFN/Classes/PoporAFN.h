@@ -26,13 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  
- 1.假如需要postdata method 必须为 PoporMethodFormData.
- postDataBlock = ^(id<AFMultipartFormData>  _Nonnull formData) {
+ @param manager : post Json格式为AFHTTPSessionManager, formData为AFHTTPSessionManager
+ @param postDataBlock : 示例为 ^(id<AFMultipartFormData>  _Nonnull formData) {
  [formData appendPartWithFileData:imageData name:@"file" fileName:@"1.jpg" mimeType:@"image/jpg"]; // 可以传递图片和视频等
  }
  
- 2. post的manager为
- FHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+ manager 示例:
+ . json的manager为
+ AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
  manager.requestSerializer =  [AFJSONRequestSerializer serializer];
  manager.responseSerializer = [AFHTTPResponseSerializer serializer];
  manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]; // 不然不支持www.baidu.com.
@@ -54,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
           url:(NSString *_Nullable)urlString
        method:(PoporMethod)method
    parameters:(NSDictionary *_Nullable)parameters
-   afnManager:(AFHTTPSessionManager *_Nullable)manager
+   afnManager:(AFURLSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
      postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock
      progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
