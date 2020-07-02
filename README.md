@@ -80,6 +80,8 @@ config.recordBlock = ^(NSString *url, NSString *title, NSString *method, id head
 
 1.06: manager和header分开设置, 更新请求方式, 增加了post data的功能.
 
+1.07: manager 增加注释例子
+
 ## Author
 
 wangkq, 908891024@qq.com

@@ -46,26 +46,26 @@
     switch(method) {
         case PoporMethodGet : {
             [(AFHTTPSessionManager *)manager GET:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
+                [PoporAFN successManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
+                [PoporAFN failManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task error:error failure:failure];
             }];
             break;
         }
         case PoporMethodPost : {
             [(AFHTTPSessionManager *)manager POST:urlString parameters:parameters headers:header progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
+                [PoporAFN successManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
+                [PoporAFN failManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task error:error failure:failure];
             }];
             break;
         }
         case PoporMethodFormData: {
            
             [(AFHTTPSessionManager *)manager POST:urlString parameters:parameters headers:header constructingBodyWithBlock:postDataBlock progress:uploadProgress success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                [PoporAFN successManager:weakManager url:urlString title:title method:method parameters:parameters task:task response:responseObject success:success];
+                [PoporAFN successManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task response:responseObject success:success];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                [PoporAFN failManager:weakManager url:urlString title:title method:method parameters:parameters task:task error:error failure:failure];
+                [PoporAFN failManager:weakManager url:urlString title:title method:method header:header parameters:parameters task:task error:error failure:failure];
             }];
             
             // // 另一种方法: 抓包发现 这个方法的参数比较简洁
@@ -100,7 +100,7 @@
 
 
 
-+ (void)successManager:(AFHTTPSessionManager *)manager url:(NSString *)urlString title:(NSString *_Nullable)title method:(PoporMethod)method parameters:(NSDictionary * _Nullable)parameters task:(NSURLSessionDataTask * _Nullable)task response:(id _Nullable) responseObject success:(PoporAFNFinishBlock _Nullable )success
++ (void)successManager:(AFURLSessionManager *)manager url:(NSString *)urlString title:(NSString *_Nullable)title method:(PoporMethod)method header:(NSDictionary *)header parameters:(NSDictionary * _Nullable)parameters task:(NSURLSessionDataTask * _Nullable)task response:(id _Nullable) responseObject success:(PoporAFNFinishBlock _Nullable )success
 {
     [manager invalidateSessionCancelingTasks:YES resetSession:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -130,12 +130,12 @@
                     responseID = str ? :nil;
                 }
             }
-            recordBlock(task.currentRequest.URL.absoluteString, title, method, manager.requestSerializer.HTTPRequestHeaders, parameters, responseID);
+            recordBlock(task.currentRequest.URL.absoluteString, title, method, header, parameters, responseID);
         }
     });
 }
 
-+ (void)failManager:(AFHTTPSessionManager *)manager url:(NSString *)urlString title:(NSString *_Nullable)title method:(PoporMethod)method parameters:(NSDictionary * _Nullable)parameters task:(NSURLSessionDataTask * _Nullable)task error:(NSError *)error failure:(PoporAFNFailureBlock _Nullable)failure
++ (void)failManager:(AFURLSessionManager *)manager url:(NSString *)urlString title:(NSString *_Nullable)title method:(PoporMethod)method header:(NSDictionary *)header parameters:(NSDictionary * _Nullable)parameters task:(NSURLSessionDataTask * _Nullable)task error:(NSError *)error failure:(PoporAFNFailureBlock _Nullable)failure
 {
     [manager invalidateSessionCancelingTasks:YES resetSession:NO];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -144,7 +144,7 @@
         }
         PoporAfnRecordBlock recordBlock = [PoporAFNConfig share].recordBlock;
         if (recordBlock) {
-            recordBlock(task.currentRequest.URL.absoluteString, title, method, manager.requestSerializer.HTTPRequestHeaders, parameters, @{@"异常":error.localizedDescription});
+            recordBlock(task.currentRequest.URL.absoluteString, title, method, header, parameters, @{@"异常":error.localizedDescription});
         }
     });
 }

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name     = 'PoporAFN'
-    s.version  = '1.06'
+    s.version  = '1.07'
     s.summary  = 'combine afn, support net monitor;包装了AFN方法,支持网络监测功能(通过PoporNetRecord控制).'
 
     s.homepage = 'https://github.com/popor/PoporAFN'
