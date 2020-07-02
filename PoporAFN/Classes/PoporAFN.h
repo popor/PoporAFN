@@ -26,10 +26,28 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  
- 1.假如需要postdata
+ 1.假如需要postdata method 必须为 PoporMethodFormData.
  postDataBlock = ^(id<AFMultipartFormData>  _Nonnull formData) {
  [formData appendPartWithFileData:imageData name:@"file" fileName:@"1.jpg" mimeType:@"image/jpg"]; // 可以传递图片和视频等
  }
+ 
+ 2. post的manager为
+ FHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+ manager.requestSerializer =  [AFJSONRequestSerializer serializer];
+ manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+ manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil]; // 不然不支持www.baidu.com.
+ manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+ manager.requestSerializer.timeoutInterval = 10.0f;
+ 
+ formData的manager为
+ AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+ // request
+ manager.requestSerializer  = [AFHTTPRequestSerializer serializer];
+ // response
+ manager.responseSerializer = [AFJSONResponseSerializer serializer];
+ manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/html", @"text/plain",  @"image/jpeg", @"image/png", @"application/octet-stream", @"multipart/form-data", nil];
+ manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+ manager.requestSerializer.timeoutInterval = 10.0f;
  
  */
 - (void)title:(NSString *_Nullable)title
@@ -38,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
    parameters:(NSDictionary *_Nullable)parameters
    afnManager:(AFHTTPSessionManager *_Nullable)manager
        header:(NSDictionary *_Nullable)header
-     postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock // 假如post data, 需要完善这个接口, method使用PoporMethodPost
+     postData:(nullable void (^)(id <AFMultipartFormData> formData))postDataBlock
      progress:(nullable void (^)(NSProgress *uploadProgress))uploadProgress
       success:(PoporAFNFinishBlock _Nullable)success
       failure:(PoporAFNFailureBlock _Nullable)failure;

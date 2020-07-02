@@ -18,8 +18,8 @@ typedef void(^PoporAFNFailureBlock)(NSURLSessionDataTask * _Nullable task, NSErr
 
 typedef NS_ENUM(NSInteger, PoporMethod) {
     PoporMethodGet,
-    PoporMethodPost,
-    PoporMethodFormData,
+    PoporMethodPost, // json格式的请求, 还需要配合manger 类型
+    PoporMethodFormData, // formdata格式的请求, 还需要配合manger 类型
 };
 
 typedef AFHTTPSessionManager * _Nullable (^PoporAFNSMBlock)(void);
